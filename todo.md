@@ -8,11 +8,11 @@ Next Milestone: *v1.0*
 
 - [x] log-levels
 - [ ] color
-	- [ ] detect whether output is on a terminal
+	- [x] detect whether output is on a terminal
 - [ ] caller
 	- [ ] limit by level
-- [ ] output
-	- [ ] pipe certain levels into certains outputs (`io.Writer` must be implemented)
+- [x] output
+	- [x] pipe certain levels into certains outputs (`io.Writer` must be implemented)
 - [ ] panic handler
 - [ ] the actual logging
 	- [ ] limit by log-level
