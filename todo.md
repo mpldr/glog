@@ -1,0 +1,19 @@
+# ToDo
+
+This is a Todo-List of what steps are still required to reach the next milestone.
+
+Next Milestone: *v1.0*
+
+## v1.0
+
+- [ ] log-levels
+- [ ] color
+	- [ ] detect whether output is on a terminal
+- [ ] caller
+	- [ ] limit by level
+- [ ] output
+	- [ ] pipe certain levels into certains outputs (`io.Writer` must be implemented)
+- [ ] panic handler
+- [ ] the actual logging
+	- [ ] limit by log-level
+	- [ ] pipe certain levels into certain outputs
