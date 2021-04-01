@@ -1,0 +1,87 @@
+package glog
+
+import "fmt"
+
+type Level uint8
+
+const (
+	TRACE Level = iota
+	DEBUG
+	INFO
+	WARNING
+	ERROR
+	FATAL
+)
+
+// levelsBelow returns a list of levels equal or above the indicated levels
+func levelsAbove(lvl Level) (levels []Level) {
+	if !isValid(lvl) {
+		return
+	}
+
+	for i := lvl; i < 6; i++ {
+		levels = append(levels, i)
+	}
+	return
+}
+
+// levelsBelow returns a list of levels equal or below the indicated levels
+func levelsBelow(lvl Level) (levels []Level) {
+	if !isValid(lvl) {
+		return
+	}
+
+	// can't go below 0, so we need an upper bound
+	for i := lvl; isValid(i); i-- {
+		levels = append(levels, i)
+	}
+	return
+}
+
+// levelsBetween returns a list of levels between (inclusive) the indicated levels
+func levelsBetween(lowerBound, upperBound Level) (levels []Level) {
+	if !isValid(lowerBound) || !isValid(upperBound) {
+		return
+	}
+
+	if lowerBound > upperBound {
+		// why is this variable named like this? simple: if you are here
+		// you are an idiot.
+		idiot := upperBound
+		upperBound = lowerBound
+		lowerBound = idiot
+	}
+
+	for i := lowerBound; i <= upperBound; i++ {
+		levels = append(levels, i)
+	}
+	return
+}
+
+// isValid returns whether a given level is valid
+func isValid(lvl Level) bool {
+	// can't go below 0 because it's an unsigned integer
+	return lvl <= FATAL
+}
+
+func (lvl Level) String() string {
+	switch lvl {
+	case 0:
+		return "TRACE"
+	case 1:
+		return "DEBUG"
+	case 2:
+		return "INFO"
+	case 3:
+		return "WARNING"
+	case 4:
+		return "ERROR"
+	case 5:
+		return "FATAL"
+	default:
+		return "ID-10T"
+	}
+}
+
+// ensure we conform to the stringer interface
+var _ fmt.Stringer = new(Level)
