@@ -9,9 +9,18 @@ import (
 )
 
 var (
-	stdout        os.FileInfo
-	stderr        os.FileInfo
-	overwriteColor int8
+	stdout os.FileInfo
+	stderr os.FileInfo
+	// OverwriteColor allows overwriting the coloring mode. 0 = auto;
+	// 1 = always; -1 = never
+	//
+	// This can also be set using the Environment-variable `GLOG_COLOR`
+	OverwriteColor int8
+	// LogLevel indicates the level of verbosity to use when logging.
+	// Messages below the specified level are discarded.
+	//
+	// This can also be set using the Environment-variable `GLOG_LEVEL`
+	LogLevel = WARNING
 )
 
 func init() {
@@ -29,14 +38,20 @@ func init() {
 	ansi.EnableANSI()
 
 	switch strings.ToUpper(os.Getenv("GLOG_COLOR")) {
+	case "1":
+		fallthrough
 	case "ON":
 		fallthrough
 	case "ALWAYS":
-		overwriteColor = 1
+		OverwriteColor = 1
+	case "-1":
+		fallthrough
+	case "0":
+		fallthrough
 	case "OFF":
 		fallthrough
 	case "NEVER":
-		overwriteColor = -1
+		OverwriteColor = -1
 	}
 
 	switch strings.ToUpper(os.Getenv("GLOG_LEVEL")) {

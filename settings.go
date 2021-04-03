@@ -1,9 +1,6 @@
 package glog
 
 var (
-	// LogLevel indicates the level of verbosity to use when logging.
-	// Messages below the specified level are discarded.
-	LogLevel = WARNING
 	// TimeFormat specifies the formatting of the timestamp to use. The
 	// default is ISO-8601 which corresponds to:
 	TimeFormat = "2006-01-02T15:04:05-0700"

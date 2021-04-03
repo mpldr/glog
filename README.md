@@ -1,6 +1,7 @@
 # gLog
 
-Your silver bullet logging solution.
+Your silver bullet logging solution. Because that is definitely what the world
+needed: another logging library.
 
 ## Features
 
@@ -17,6 +18,35 @@ gLog supports the following features:
 	- output per logging level
 	- caller from a certain level
 - sane defaults
+
+## Output
+
+The output follows this structure:
+
+```
+%level:\t%time – %caller – …
+```
+
+`%level` is colored by default when logging to stdout or stderr. It can be
+enabled and disabled at will.
+
+`%time` is in the ISO- format 
+
+`%caller` is the name (format: `package.function`) of the function that is logging
+the message. By default this does not happen for `INFO` and `WARNING`.
+
+## Levels
+
+| Level   | Description                                                      |
+|---------|------------------------------------------------------------------|
+| TRACE   | Print *everything*. This is usually not wanted unless debugging. |
+| DEBUG   | Print *every* function call.                                     |
+| INFO    | Print general statusmessages like HTTP-Requests (a good default) |
+| WARNING | Handled errors. (the better default¹)                            |
+| ERROR   | Non-Critical Errors like access denied                           |
+| FATAL   | Errors that do not allow the Program to continue                 |
+
+¹) "no news is good news" or so they say
 
 ## License
 
