@@ -45,7 +45,8 @@ func Debugf(format string, values ...interface{}) {
 	}
 
 	msg := fmt.Sprintf(format, values...)
-	Debug(msg)
+	logLine := getLogLine(DEBUG, msg)
+	writeToOutput(DEBUG, logLine)
 }
 
 // Info logs a message at the INFO level
@@ -66,7 +67,8 @@ func Infof(format string, values ...interface{}) {
 	}
 
 	msg := fmt.Sprintf(format, values...)
-	Info(msg)
+	logLine := getLogLine(INFO, msg)
+	writeToOutput(INFO, logLine)
 }
 
 // Warn logs a message at the WARNING level
@@ -87,7 +89,8 @@ func Warnf(format string, values ...interface{}) {
 	}
 
 	msg := fmt.Sprintf(format, values...)
-	Warn(msg)
+	logLine := getLogLine(WARNING, msg)
+	writeToOutput(WARNING, logLine)
 }
 
 // Error logs a message at the ERROR level
@@ -108,7 +111,8 @@ func Errorf(format string, values ...interface{}) {
 	}
 
 	msg := fmt.Sprintf(format, values...)
-	Error(msg)
+	logLine := getLogLine(ERROR, msg)
+	writeToOutput(ERROR, logLine)
 }
 
 // Fatal logs a message at the FATAL level and Panics afterwards
@@ -129,7 +133,8 @@ func Fatalf(format string, values ...interface{}) {
 	}
 
 	msg := fmt.Sprintf(format, values...)
-	Fatal(msg)
+	logLine := getLogLine(FATAL, msg)
+	writeToOutput(FATAL, logLine)
 }
 
 func getLogLine(lvl Level, message string) string {
