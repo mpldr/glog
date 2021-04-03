@@ -9,8 +9,9 @@ import (
 )
 
 var (
-	stdout os.FileInfo
-	stderr os.FileInfo
+	stdout        os.FileInfo
+	stderr        os.FileInfo
+	overwriteColor int8
 )
 
 func init() {
@@ -26,6 +27,17 @@ func init() {
 
 	// Just because
 	ansi.EnableANSI()
+
+	switch strings.ToUpper(os.Getenv("GLOG_COLOR")) {
+	case "ON":
+		fallthrough
+	case "ALWAYS":
+		overwriteColor = 1
+	case "OFF":
+		fallthrough
+	case "NEVER":
+		overwriteColor = -1
+	}
 
 	switch strings.ToUpper(os.Getenv("GLOG_LEVEL")) {
 	case "TRACE":

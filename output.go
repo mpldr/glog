@@ -169,6 +169,10 @@ func writeToOutput(lvl Level, message string) {
 }
 
 func isTerminal(file io.Writer) bool {
+	if overwriteColor != 0 {
+		return overwriteColor > 0
+	}
+
 	if reflect.TypeOf(file).String() != "*os.File" {
 		return false
 	}
