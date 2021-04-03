@@ -17,3 +17,8 @@ Next Milestone: *v1.0*
 - [x] the actual logging
 	- [x] limit by log-level
 	- [x] pipe certain levels into certain outputs
+
+## v1.x
+
+- [ ] allow writing to syslog/eventlog
+- [ ] logrotation
