@@ -64,6 +64,8 @@ func isValid(lvl Level) bool {
 	return lvl <= FATAL
 }
 
+// String implements the fmt.Stringer interface to allow use of levels in fmt
+// calls.
 func (lvl Level) String() string {
 	switch lvl {
 	case 0:
@@ -80,6 +82,26 @@ func (lvl Level) String() string {
 		return "FATAL"
 	default:
 		return "ID-10T"
+	}
+}
+
+// Short returns a levels representation in log
+func (lvl Level) Short() string {
+	switch lvl {
+	case 0:
+		return "TRACE"
+	case 1:
+		return "DEBUG"
+	case 2:
+		return "INFO"
+	case 3:
+		return "WARN"
+	case 4:
+		return "ERROR"
+	case 5:
+		return "FATAL"
+	default:
+		return "CRIT"
 	}
 }
 

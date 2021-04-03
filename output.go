@@ -1,6 +1,7 @@
 package glog
 
 import (
+	"fmt"
 	"io"
 	"os"
 	"sync"
@@ -132,16 +133,17 @@ func AddOutputBelow(lvl Level, output io.Writer) {
 // writeToOutput writes the given message to all outputs of the level, if errors
 // occur, they are collected and returned afterwards. Every output is at least
 // attempted.
-func writeToOutput(lvl Level, message string) (errs []error) {
+func writeToOutput(lvl Level, message string) {
 	if !isValid(lvl) {
 		return
 	}
 
 	outputMtx.RLock()
 	defer outputMtx.RUnlock()
+	var errs []error
 	var err error
 	for _, out := range outputs[lvl] {
-		if fileInfo, _ := os.Stdout.Stat(); (fileInfo.Mode() & os.ModeCharDevice) != 0 {
+		if isTerminal(out) {
 			_, err = out.Write([]byte(message))
 		} else {
 			_, err = out.Write([]byte(ansi.StripString(message)))
@@ -150,5 +152,28 @@ func writeToOutput(lvl Level, message string) (errs []error) {
 			errs = append(errs, err)
 		}
 	}
-	return
+
+	if len(errs) != 0 {
+		// just try to get word about the current error out
+		for _, err := range errs {
+			for _, out := range outputs[lvl] {
+				if isTerminal(out) {
+					_, err = out.Write([]byte(getLogLine(ERROR, fmt.Sprintf("cannot write Log: %s. Attempted to write: %s", err, message))))
+				} else {
+					_, err = out.Write([]byte(ansi.StripString(getLogLine(ERROR, fmt.Sprintf("cannot write Log: %s. Attempted to write: %s", err, message)))))
+				}
+			}
+		}
+	}
+}
+
+func isTerminal(file io.Writer) bool {
+	var output interface{} = &file
+
+	if _, ok := output.(os.FileInfo); !ok {
+		return false
+	}
+
+	fileInfo, _ := os.Stdout.Stat()
+	return (fileInfo.Mode() & os.ModeCharDevice) != 0
 }
