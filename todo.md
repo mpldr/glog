@@ -7,7 +7,7 @@ Next Milestone: *v1.0*
 ## v1.0
 
 - [x] log-levels
-- [ ] color
+- [x] color
 	- [x] detect whether output is on a terminal
 - [ ] caller
 	- [ ] limit by level
