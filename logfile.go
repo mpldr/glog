@@ -1,7 +1,6 @@
 package glog
 
 import (
-	"bufio"
 	"os"
 )
 
@@ -11,10 +10,10 @@ func AddLogFile(filepath string, lvls ...Level) (*os.File, error) {
 		return nil, err
 	}
 
-	bufw := bufio.NewWriter(fh)
+	/*bufw := bufio.NewWriter(fh)*/
 
 	for _, lvl := range lvls {
-		AddOutput(lvl, bufw)
+		AddOutput(lvl, fh)
 	}
-	return nil, nil
+	return fh, nil
 }

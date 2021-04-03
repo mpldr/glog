@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"reflect"
 	"sync"
 
 	"git.sr.ht/~poldi1405/go-ansi"
@@ -168,9 +169,7 @@ func writeToOutput(lvl Level, message string) {
 }
 
 func isTerminal(file io.Writer) bool {
-	var output interface{} = &file
-
-	if _, ok := output.(os.FileInfo); !ok {
+	if reflect.TypeOf(file).String() != "*os.File" {
 		return false
 	}
 
