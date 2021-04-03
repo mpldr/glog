@@ -11,12 +11,12 @@ import (
 
 // set default outputs per loglevel
 var outputs = [...][]io.Writer{
-	{io.Discard}, // TRACE
-	{io.Discard}, // DEBUG
-	{os.Stdout},  // INFO
-	{os.Stderr},  // WARNING
-	{os.Stderr},  // ERROR
-	{os.Stderr},  // FATAL
+	{os.Stdout}, // TRACE
+	{os.Stdout}, // DEBUG
+	{os.Stdout}, // INFO
+	{os.Stderr}, // WARNING
+	{os.Stderr}, // ERROR
+	{os.Stderr}, // FATAL
 }
 var outputMtx sync.RWMutex
 
