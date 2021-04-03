@@ -16,4 +16,4 @@ Next Milestone: *v1.0*
 - [ ] panic handler
 - [ ] the actual logging
 	- [ ] limit by log-level
-	- [ ] pipe certain levels into certain outputs
+	- [x] pipe certain levels into certain outputs
