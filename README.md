@@ -11,7 +11,7 @@ gLog supports the following features:
 - customization
 - caller-insertion
 - mutiple outputs
-- log rotation
+- log rotation (coming soon™)
 - panic-handling
 - conditionals:
 	- output per logging level
