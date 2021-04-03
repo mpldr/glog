@@ -134,7 +134,7 @@ func Fatalf(format string, values ...interface{}) {
 
 func getLogLine(lvl Level, message string) string {
 	if showCaller[lvl] {
-		return fmt.Sprintf(logFormatCaller, lvl.Short(), time.Now().Format(TimeFormat), getCaller(4), message)
+		return fmt.Sprintf(logFormatCaller, lvl.Short(), time.Now().Format(TimeFormat), getCaller(2), message)
 	}
 	return fmt.Sprintf(logFormat, lvl.Short(), time.Now().Format(TimeFormat), message)
 }
