@@ -173,6 +173,9 @@ func isTerminal(file io.Writer) bool {
 		return false
 	}
 
-	fileInfo, _ := os.Stdout.Stat()
-	return (fileInfo.Mode() & os.ModeCharDevice) != 0
+	fi, err := file.(*os.File).Stat()
+	if err != nil {
+		return false
+	}
+	return os.SameFile(stdout, fi) || os.SameFile(stderr, fi)
 }
