@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"reflect"
 	"sync"
 
 	"git.sr.ht/~poldi1405/go-ansi"
@@ -169,15 +168,12 @@ func writeToOutput(lvl Level, message string) {
 }
 
 func isTerminal(file io.Writer) bool {
-	if OverwriteColor != 0 {
-		return OverwriteColor > 0
-	}
-
-	if reflect.TypeOf(file).String() != "*os.File" {
+	f, ok := file.(*os.File)
+	if !ok {
 		return false
 	}
 
-	fi, err := file.(*os.File).Stat()
+	fi, err := f.Stat()
 	if err != nil {
 		return false
 	}
