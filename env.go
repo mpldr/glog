@@ -17,7 +17,8 @@ var (
 	// This can also be set using the Environment-variable `GLOG_COLOR`
 	OverwriteColor int8
 	// LogLevel indicates the level of verbosity to use when logging.
-	// Messages below the specified level are discarded.
+	// Messages below the specified level are discarded. Usually you want to
+	// use SetLevel() to ensure that overrides are correctly applied.
 	//
 	// This can also be set using the Environment-variable `GLOG_LEVEL`
 	LogLevel = WARNING
@@ -59,17 +60,23 @@ func init() {
 		fallthrough
 	case "VERBOSE":
 		LogLevel = TRACE
+		levelSetFromEnv = true
 	case "DEBUG":
 		LogLevel = DEBUG
+		levelSetFromEnv = true
 	case "INFO":
 		LogLevel = INFO
+		levelSetFromEnv = true
 	case "ERROR":
 		LogLevel = ERROR
+		levelSetFromEnv = true
 	case "FATAL":
 		LogLevel = FATAL
+		levelSetFromEnv = true
 	case "MUTE":
 		fallthrough
 	case "SILENT":
 		LogLevel = 42
+		levelSetFromEnv = true
 	}
 }

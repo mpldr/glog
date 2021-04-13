@@ -64,6 +64,19 @@ func isValid(lvl Level) bool {
 	return lvl <= FATAL
 }
 
+// SetLevel allows setting the loglevel while
+func SetLevel(lvl Level) bool {
+	if levelSetFromEnv {
+		return false
+	}
+	LogLevel = lvl
+	return true
+}
+
+// levelSetFromEnv tells us if the loglevel was set from the env. Just a hack to
+// get rid of the error handling now
+var levelSetFromEnv bool
+
 // String implements the fmt.Stringer interface to allow use of levels in fmt
 // calls.
 func (lvl Level) String() string {
