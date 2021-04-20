@@ -30,7 +30,7 @@ The output follows this structure:
 `%level` is colored by default when logging to stdout or stderr. It can be
 enabled and disabled at will.
 
-`%time` is in the ISO- format 
+`%time` is in the ISO-8601 format working with nanosecond precision (if supported)
 
 `%caller` is the name (format: `package.function`) of the function that is logging
 the message. By default this does not happen for `INFO` and `WARNING`.

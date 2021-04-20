@@ -3,7 +3,7 @@ package glog
 var (
 	// TimeFormat specifies the formatting of the timestamp to use. The
 	// default is ISO-8601 which corresponds to:
-	TimeFormat = "2006-01-02T15:04:05-0700"
+	TimeFormat = "2006-01-02T15:04:05.000000-0700"
 	// NoPanic indicates that after a call to Fatal(f) no panic-stop shall
 	// be executed.
 	NoPanic bool
