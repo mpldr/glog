@@ -25,6 +25,11 @@ var (
 )
 
 func init() {
+	switch os.Getenv("GLOG_METALOGGER") {
+	case "1":
+		EnableMetaLogging = true
+	}
+
 	var err error
 	stdout, err = os.Stdout.Stat()
 	if err != nil {
@@ -45,6 +50,7 @@ func init() {
 		fallthrough
 	case "ALWAYS":
 		OverwriteColor = 1
+		metalog("set colormode to always from environment")
 	case "-1":
 		fallthrough
 	case "0":
@@ -53,6 +59,7 @@ func init() {
 		fallthrough
 	case "NEVER":
 		OverwriteColor = -1
+		metalog("set colormode to never from environment")
 	}
 
 	switch strings.ToUpper(os.Getenv("GLOG_LEVEL")) {
@@ -61,22 +68,28 @@ func init() {
 	case "VERBOSE":
 		LogLevel = TRACE
 		levelSetFromEnv = true
+		metalog("set loglevel to trace from environment")
 	case "DEBUG":
 		LogLevel = DEBUG
 		levelSetFromEnv = true
+		metalog("set loglevel to debug from environment")
 	case "INFO":
 		LogLevel = INFO
 		levelSetFromEnv = true
+		metalog("set loglevel to info from environment")
 	case "ERROR":
 		LogLevel = ERROR
 		levelSetFromEnv = true
+		metalog("set loglevel to error from environment")
 	case "FATAL":
 		LogLevel = FATAL
 		levelSetFromEnv = true
+		metalog("set loglevel to fatal from environment")
 	case "MUTE":
 		fallthrough
 	case "SILENT":
 		LogLevel = 42
 		levelSetFromEnv = true
+		metalog("set loglevel to silent from environment")
 	}
 }

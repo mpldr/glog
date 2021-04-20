@@ -22,6 +22,12 @@ var (
 		true,  // ERROR
 		true,  // FATAL
 	}
+	// EnableMetaLogging starts logging the inner workings of this library
+	// and is usually only used when developing but can be helpful if there
+	// are issues with your logging. If you happen to find a bug, please
+	// don't hesitate it at: https://todo.sr.ht/~poldi1405/issues
+	// (no account needed)
+	EnableMetaLogging bool
 )
 
 // SetShowCaller allows defining for what levels the caller is displayed in the
@@ -31,5 +37,6 @@ func SetShowCaller(lvl Level, show bool) {
 		return
 	}
 
+	metalog("set caller for", lvl, "to", show)
 	showCaller[lvl] = show
 }

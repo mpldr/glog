@@ -7,13 +7,13 @@ needed: another logging library.
 
 gLog supports the following features:
 
-- log-levels
+- log-levels 
 - smart-colors
 - customization
 - caller-insertion
 - mutiple outputs
 - log rotation (coming soon™)
-- panic-handling
+- panic-handling <!-- ToDo -->
 - conditionals:
 	- output per logging level
 	- caller from a certain level
@@ -85,6 +85,13 @@ Sets the level to the specified value. Special cases:
 
 - `MUTE`, `SILENT`
 	- disable every and all log-output
+
+### `GLOG_METALOGGER`
+
+- `1`
+	- enable the built in meta-logger (the logger, logging activities of
+	the logging library). *DO NOT USE THIS UNLESS YOU HAVE GOOD REASON!* It
+	look horrible.
 
 ## License
 

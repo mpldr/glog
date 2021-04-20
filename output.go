@@ -31,6 +31,7 @@ func SetOutput(lvl Level, output io.Writer) {
 	outputMtx.Lock()
 	defer outputMtx.Unlock()
 
+	metalog("setting output of", lvl)
 	outputs[lvl] = []io.Writer{output}
 }
 
@@ -43,6 +44,7 @@ func AddOutput(lvl Level, output io.Writer) {
 	outputMtx.Lock()
 	defer outputMtx.Unlock()
 
+	metalog("adding output to", lvl)
 	outputs[lvl] = append(outputs[lvl], output)
 }
 
@@ -58,6 +60,7 @@ func SetOutputBetween(lowerLevel, upperLevel Level, output io.Writer) {
 
 	levels := levelsBetween(lowerLevel, upperLevel)
 	for _, lvl := range levels {
+		metalog("setting output for", lvl)
 		outputs[lvl] = []io.Writer{output}
 	}
 }
@@ -74,6 +77,7 @@ func AddOutputBetween(lowerLevel, upperLevel Level, output io.Writer) {
 
 	levels := levelsBetween(lowerLevel, upperLevel)
 	for _, lvl := range levels {
+		metalog("adding output to", lvl)
 		outputs[lvl] = append(outputs[lvl], output)
 	}
 }
@@ -88,6 +92,7 @@ func SetOutputAbove(lvl Level, output io.Writer) {
 	outputMtx.Lock()
 	defer outputMtx.Unlock()
 
+	metalog("setting output for", lvl)
 	outputs[lvl] = []io.Writer{output}
 }
 
@@ -101,6 +106,7 @@ func AddOutputAbove(lvl Level, output io.Writer) {
 	outputMtx.Lock()
 	defer outputMtx.Unlock()
 
+	metalog("adding output to", lvl)
 	outputs[lvl] = append(outputs[lvl], output)
 }
 
@@ -114,6 +120,7 @@ func SetOutputBelow(lvl Level, output io.Writer) {
 	outputMtx.Lock()
 	defer outputMtx.Unlock()
 
+	metalog("setting output for", lvl)
 	outputs[lvl] = []io.Writer{output}
 }
 
@@ -127,6 +134,7 @@ func AddOutputBelow(lvl Level, output io.Writer) {
 	outputMtx.Lock()
 	defer outputMtx.Unlock()
 
+	metalog("adding output to", lvl)
 	outputs[lvl] = append(outputs[lvl], output)
 }
 
@@ -134,6 +142,7 @@ func AddOutputBelow(lvl Level, output io.Writer) {
 // occur, they are collected and returned afterwards. Every output is at least
 // attempted.
 func writeToOutput(lvl Level, message string) {
+	metalog("writing", message, "on level", lvl)
 	if !isValid(lvl) {
 		return
 	}
@@ -149,6 +158,7 @@ func writeToOutput(lvl Level, message string) {
 			_, err = out.Write([]byte(ansi.StripString(message)))
 		}
 		if err != nil {
+			metalog("error writing log", err)
 			errs = append(errs, err)
 		}
 	}
@@ -170,11 +180,13 @@ func writeToOutput(lvl Level, message string) {
 func isTerminal(file io.Writer) bool {
 	f, ok := file.(*os.File)
 	if !ok {
+		metalog("output is not of type os.File")
 		return false
 	}
 
 	fi, err := f.Stat()
 	if err != nil {
+		metalog("cannot stat output")
 		return false
 	}
 	return os.SameFile(stdout, fi) || os.SameFile(stderr, fi)

@@ -9,6 +9,7 @@ import "runtime"
 func GetCaller(skipFrames int) string {
 	// Thanks to StackOverflow User Not_a_Golfer for providing this code
 	targetFrameIndex := skipFrames + 2
+	metalog("skipping", skipFrames, "frames")
 
 	programCounters := make([]uintptr, targetFrameIndex+2)
 	n := runtime.Callers(0, programCounters)
@@ -25,5 +26,6 @@ func GetCaller(skipFrames int) string {
 		}
 	}
 
+	metalog("returning caller:", frame.Function)
 	return frame.Function
 }
