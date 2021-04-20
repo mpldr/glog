@@ -19,11 +19,13 @@ var (
 		ansi.Green,  // INFO
 		ansi.Yellow, // WARN
 		ansi.Red,    // ERROR
-		fatalStyle,  // FATAL
+		FatalStyle,  // FATAL
 	}
 )
 
-func fatalStyle(content ...interface{}) string {
+// FatalStyle is the default style for fatal logmessages. Just in case you want
+// to restore it after changing it.
+func FatalStyle(content ...interface{}) string {
 	return ansi.Bold(ansi.Red(content...))
 }
 
