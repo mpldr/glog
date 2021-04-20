@@ -7,10 +7,12 @@ var (
 	// NoPanic indicates that after a call to Fatal(f) no panic-stop shall
 	// be executed.
 	NoPanic bool
-	//           Level:\tTimestamp – Message
-	logFormat = "%s:\t%s – %s\n"
-	//                 Level:\tTimestamp – Caller – Message
-	logFormatCaller = "%s:\t%s – %s – %s\n"
+	// LogFormatter contains the function used to actually format logged
+	// statements. Changing this allows complete control over the format of
+	// log messages.
+	LogFormatter FormatFunction = defaultLogFormat
+	//           Level:\tTimestamp – Caller (optional) – Message
+	logFormat = "%s:\t%s – %s%s\n"
 	// showCaller contains whether a certain loglevel should show it's caller.
 	showCaller = [...]bool{
 		true,  // TRACE
