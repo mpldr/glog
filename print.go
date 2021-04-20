@@ -138,8 +138,11 @@ func Fatalf(format string, values ...interface{}) {
 }
 
 func getLogLine(lvl Level, message string) string {
+	timestamp := time.Now() // get time here so getting the caller does not change it
+	caller := ""
 	if showCaller[lvl] {
-		return fmt.Sprintf(logFormatCaller, styleFuncs[lvl](lvl.Short()), time.Now().Format(TimeFormat), getCaller(2), message)
+		metalog("caller requested")
+		caller = GetCaller(2)
 	}
-	return fmt.Sprintf(logFormat, styleFuncs[lvl](lvl.Short()), time.Now().Format(TimeFormat), message)
+	return LogFormatter(lvl, timestamp, caller, message)
 }

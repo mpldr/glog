@@ -2,10 +2,11 @@ package glog
 
 import "runtime"
 
-// getCaller returns the calling function. skipFrames indicates how far up the
+// GetCaller returns the calling function. skipFrames indicates how far up the
 // ladder we go when looking for the caller (2 = direct caller, 3 = caller of
-// the caller, …)
-func getCaller(skipFrames int) string {
+// the caller, …). You can use this for more information in your log messages
+// when creating custom formatters. Note that this is *relatively* expensive.
+func GetCaller(skipFrames int) string {
 	// Thanks to StackOverflow User Not_a_Golfer for providing this code
 	targetFrameIndex := skipFrames + 2
 
