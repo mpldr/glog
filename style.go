@@ -28,7 +28,9 @@ func defaultLogFormat(lvl Level, timestamp time.Time, caller string, message str
 		caller += " – "
 	}
 
-	return fmt.Sprintf(logFormat, lvl.Short(), timestamp.Format(TimeFormat), caller, message)
+	styleFuncMtx.Lock()
+	defer styleFuncMtx.Unlock()
+	return fmt.Sprintf(logFormat, styleFuncs[lvl](lvl.Short()), timestamp.Format(TimeFormat), caller, message)
 }
 
 var (

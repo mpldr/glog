@@ -189,5 +189,19 @@ func isTerminal(file io.Writer) bool {
 		metalog("cannot stat output")
 		return false
 	}
-	return os.SameFile(stdout, fi) || os.SameFile(stderr, fi)
+
+	stdoutput := (os.SameFile(stdout, fi) || os.SameFile(stderr, fi)) && fi.Mode()&os.ModeCharDevice > 0
+	metalog("file is terminal because output is stdout/stderr:", stdoutput)
+	if !stdoutput {
+		// no need to perform more checks. It's not stdout
+		return stdoutput
+	}
+
+	// now check if it is a special file, in which case we don't want it
+	metalog("filemode:", fi.Mode())
+	specialoutput := fi.Mode()&os.ModeNamedPipe > 0
+	specialoutput = specialoutput || (fi.Mode()&os.ModeSocket > 0)
+	specialoutput = specialoutput || (fi.Mode()&os.ModeDevice == 0)
+
+	return stdoutput && !specialoutput
 }
