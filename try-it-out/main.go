@@ -5,6 +5,7 @@ import (
 )
 
 func main() {
+	defer glog.PanicHandler()
 	glog.Trace("this is a Trace message")
 	glog.Debug("this is a Debug message")
 	glog.Info("this is a Info message")
@@ -21,4 +22,9 @@ func main() {
 	glog.Warn("this is a Warning message")
 	glog.Error("this is an Error message")
 	glog.Fatal("this is a Fatal message")
+	teenie()
+}
+
+func teenie() {
+	panic("O!M!G! is that the newest buyPhone?! AAAAAHHH!")
 }
