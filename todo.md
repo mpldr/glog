@@ -13,7 +13,7 @@ Next Milestone: *v1.0*
 	- [x] limit by level
 - [x] output
 	- [x] pipe certain levels into certains outputs (`io.Writer` must be implemented)
-- [ ] panic handler
+- [x] panic handler
 - [x] the actual logging
 	- [x] limit by log-level
 	- [x] pipe certain levels into certain outputs

@@ -13,7 +13,7 @@ gLog supports the following features:
 - caller-insertion
 - mutiple outputs
 - log rotation (coming soon™)
-- panic-handling <!-- ToDo -->
+- panic-handling
 - conditionals:
 	- output per logging level
 	- caller from a certain level
