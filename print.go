@@ -135,7 +135,8 @@ func Errorf(format string, values ...interface{}) {
 	writeToOutput(ERROR, logLine)
 }
 
-// Fatal logs a message at the FATAL level and Panics afterwards
+// Fatal logs a message at the FATAL level it is recommended to exit the program
+// afterwards.
 func Fatal(message ...interface{}) {
 	metalog("received FATAL message", message)
 	if LogLevel > FATAL {
@@ -148,7 +149,8 @@ func Fatal(message ...interface{}) {
 	writeToOutput(FATAL, logLine)
 }
 
-// Fatalf formats the input values as specified and writes them to the according channels
+// Fatalf formats the input values as specified and writes them to the according
+// channel. It is recommended to exit the program afterwards.
 func Fatalf(format string, values ...interface{}) {
 	metalog("received FATAL message", format, values)
 	if LogLevel > FATAL {
