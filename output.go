@@ -92,8 +92,12 @@ func SetOutputAbove(lvl Level, output io.Writer) {
 	outputMtx.Lock()
 	defer outputMtx.Unlock()
 
-	metalog("setting output for", lvl)
-	outputs[lvl] = []io.Writer{output}
+	metalog("setting output for", lvl, "and above")
+	levels := levelsAbove(lvl)
+	for _, lvl := range levels {
+		metalog("setting output for", lvl)
+		outputs[lvl] = []io.Writer{output}
+	}
 }
 
 // AddOutput adds the specified output to the list of outputs for the specified
@@ -106,8 +110,12 @@ func AddOutputAbove(lvl Level, output io.Writer) {
 	outputMtx.Lock()
 	defer outputMtx.Unlock()
 
-	metalog("adding output to", lvl)
-	outputs[lvl] = append(outputs[lvl], output)
+	metalog("adding output to", lvl, "and above")
+	levels := levelsAbove(lvl)
+	for _, lvl := range levels {
+		metalog("adding output for", lvl)
+		outputs[lvl] = append(outputs[lvl], output)
+	}
 }
 
 // SetOutput removes all outputs and replaces them with the specified output.
@@ -120,8 +128,12 @@ func SetOutputBelow(lvl Level, output io.Writer) {
 	outputMtx.Lock()
 	defer outputMtx.Unlock()
 
-	metalog("setting output for", lvl)
-	outputs[lvl] = []io.Writer{output}
+	metalog("setting output for", lvl, "and below")
+	levels := levelsBelow(lvl)
+	for _, lvl := range levels {
+		metalog("setting output for", lvl)
+		outputs[lvl] = []io.Writer{output}
+	}
 }
 
 // AddOutput adds the specified output to the list of outputs for the specified
@@ -134,8 +146,12 @@ func AddOutputBelow(lvl Level, output io.Writer) {
 	outputMtx.Lock()
 	defer outputMtx.Unlock()
 
-	metalog("adding output to", lvl)
-	outputs[lvl] = append(outputs[lvl], output)
+	metalog("adding output to", lvl, "and below")
+	levels := levelsAbove(lvl)
+	for _, lvl := range levels {
+		metalog("adding output for", lvl)
+		outputs[lvl] = append(outputs[lvl], output)
+	}
 }
 
 // writeToOutput writes the given message to all outputs of the level, if errors
