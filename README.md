@@ -3,6 +3,8 @@
 Your silver bullet logging solution. Because that is definitely what the world
 needed: another logging library.
 
+[![godocs.io](https://godocs.io/git.sr.ht/~poldi1405/glog?status.svg)](https://godocs.io/git.sr.ht/~poldi1405/glog)
+
 ## Features
 
 gLog supports the following features:
@@ -11,7 +13,7 @@ gLog supports the following features:
 - smart-colors
 - customization
 - caller-insertion
-- mutiple outputs
+- multiple outputs
 - log rotation (coming soon™)
 - panic-handling
 - conditionals:
@@ -62,7 +64,52 @@ reasons; some of which are:
 
 ¹) "no news is good news" or so they say
 
-## Environment Variables
+## Special Usage
+
+### Panic Handling
+
+Simply defer  the `PanicHandler` in  your main function.  All  panics that occur
+will automatically be logged to a seperate file.
+
+```go
+func main() {
+	defer glog.PanicHandler()
+	// … do you program stuff …
+}
+```
+
+### Multiple outputs
+
+All log-levels can have nearly unlimited outputs. To add another output for a
+certain Level use the `AddOutput*` functions.
+
+```go
+func main() {
+	dbglogfh, err := glog.AddLogFile("debug.log", TRACE, DEBUG)
+	if err != nil {
+		glog.Errorf("cannot open file for debug logging")
+	}
+	defer dbglogfh.Close()
+	// … any calls to glog.Debug() and glog.Trace() will be printed to 
+	// screen and written to the file `debug.log`
+}
+```
+
+### Custom message format
+
+If for whatever reason you dislike the default log-format, you can set a custom
+format like so:
+
+```go
+func main() {
+	glog.Logformatter = func(lvl Level, t time.Time, caller, message string) string {
+		return fmt.Sprintf("%s logged %s on level %s at %s", caller, message, level, t.Format(glog.TimeFormat))
+	}
+	glog.Debug("witness my new format!")
+}
+```
+
+### Environment Variables
 
 All environment-variable *values* (not the variables themselves) are case insensitive.
 
