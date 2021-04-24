@@ -48,7 +48,7 @@ var (
 // FatalStyle is the default style for fatal logmessages. Just in case you want
 // to restore it after changing it.
 func FatalStyle(content ...interface{}) string {
-	return ansi.Bold(ansi.Red(content...))
+	return ansi.Blink(ansi.Bold(ansi.Red(content...)))
 }
 
 // SetStyle allows customizing the look of the *error-level*. This can also be
