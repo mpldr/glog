@@ -147,7 +147,7 @@ func AddOutputBelow(lvl Level, output io.Writer) {
 	defer outputMtx.Unlock()
 
 	metalog("adding output to", lvl, "and below")
-	levels := levelsAbove(lvl)
+	levels := levelsBelow(lvl)
 	for _, lvl := range levels {
 		metalog("adding output for", lvl)
 		outputs[lvl] = append(outputs[lvl], output)
