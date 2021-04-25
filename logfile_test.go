@@ -25,3 +25,14 @@ func TestAddLogFile(t *testing.T) {
 		t.Errorf("AddLogFile did not create file 'test_AddLogFile_Warning.txt'")
 	}
 }
+
+func TestAddLogFileFails(t *testing.T) {
+	_, err := AddLogFile("this.directory_should.not_exist"+string(os.PathSeparator)+"test_AddLogFile_Warning.txt", WARNING)
+	if err == nil {
+		t.Error("invalid file was created.")
+	}
+
+	t.Cleanup(func() {
+		SetOutput(WARNING, os.Stdout)
+	})
+}
