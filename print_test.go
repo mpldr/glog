@@ -2,6 +2,7 @@ package glog
 
 import (
 	"bytes"
+	"log"
 	"os"
 	"strings"
 	"testing"
@@ -448,4 +449,43 @@ func TestGetLogLine(t *testing.T) {
 
 	// reset
 	showCaller = tmp
+}
+
+func TestEarlyAbort(t *testing.T) {
+	var b bytes.Buffer
+	log.SetOutput(&b)
+
+	LogLevel = 42
+	EnableMetaLogging = true
+	t.Cleanup(func() { LogLevel = WARNING; EnableMetaLogging = false })
+
+	type printFunc func(...interface{})
+
+	levels := []printFunc{Trace, Debug, Info, Warn, Error, Fatal}
+
+	for i, f := range levels {
+		t.Run("print_"+Level(i).String(), func(t *testing.T) {
+			f("message")
+
+			if !strings.HasSuffix(b.String(), "discarded\n") {
+				t.Errorf("message for level %s was not discarded. Written message: '%s'", Level(i), b.String())
+			}
+			b.Reset()
+		})
+	}
+
+	type printfFunc func(string, ...interface{})
+
+	levelsf := []printfFunc{Tracef, Debugf, Infof, Warnf, Errorf, Fatalf}
+
+	for i, f := range levelsf {
+		t.Run("printf_"+Level(i).String(), func(t *testing.T) {
+			f("message")
+
+			if !strings.HasSuffix(b.String(), "discarded\n") {
+				t.Errorf("message for level %s was not discarded. Written message: '%s'", Level(i), b.String())
+			}
+			b.Reset()
+		})
+	}
 }
