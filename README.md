@@ -29,22 +29,21 @@ The output follows this structure:
 %level:\t%time – %caller – …
 ```
 
-`%level` is  colored by  default when logging  to stdout  or stderr.  It  can be
+`%level` is coloured by  default when logging  to stdout  or stderr.  It  can be
 enabled and disabled at will.
 
 `%time` is in the ISO-8601 format working with nanosecond precision (if supported)
 
 `%caller` is the  name  (format:  `package.function`)  of  the  function that is
-logging the message.  By default this does not happen for `INFO` and `WARNING`.
+logging the message.  By default, this does not happen for `INFO` and `WARNING`.
 
 ### Why `–` and not `-`
 
-I  decided to  use [U+2013](https://codepoints.net/U+2013)  (EN DASH)  because a
+I  decided  to  use  [U+2013](https://codepoints.net/U+2013)  (EN  DASH)  over a
 normal [U+002D](https://codepoints.net/U+002D)  (HYPHEN-MINUS)  due  to multiple
 reasons; some of which are:
 
 - `2D` is not at all unlikely to appear in a log-message
-	- using `2013` allows for an easy way of splitting log lines without using RegEx
 - they look very similar while they can still be distinguished
 - it is also in most fonts used in a terminal
 	- if it is not in your's think about changing fonts
@@ -53,14 +52,14 @@ reasons; some of which are:
 
 ## Levels
 
-| Level   | Description                                                      |
-|---------|------------------------------------------------------------------|
-| TRACE   | Print *everything*. This is usually not wanted unless debugging. |
-| DEBUG   | Print *every* function call.                                     |
-| INFO    | Print general statusmessages like HTTP-Requests (a good default) |
-| WARNING | Handled errors. (the better default¹)                            |
-| ERROR   | Non-Critical Errors like access denied                           |
-| FATAL   | Errors that do not allow the Program to continue                 |
+| Level   | Description                                                       |
+|---------|-------------------------------------------------------------------|
+| TRACE   | Print *everything*. This is usually not wanted unless debugging.  |
+| DEBUG   | Print *every* function call.                                      |
+| INFO    | Print general status messages like HTTP-Requests (a good default) |
+| WARNING | Handled errors. (the better default¹)                             |
+| ERROR   | Non-Critical Errors like access denied                            |
+| FATAL   | Errors that do not allow the Program to continue                  |
 
 ¹) "no news is good news" or so they say
 
@@ -69,7 +68,7 @@ reasons; some of which are:
 ### Panic Handling
 
 Simply defer  the `PanicHandler` in  your main function.  All  panics that occur
-will automatically be logged to a seperate file.
+will automatically be logged to a separate file.
 
 ```go
 func main() {
@@ -116,11 +115,11 @@ All environment-variable *values* (not the variables themselves) are case insens
 ### `GLOG_COLOR`
 
 - `ALWAYS`, `ON`, `1`
-	- automatically sets OverwriteColor to 1, thereby enabling color even 
+	- automatically sets OverwriteColor to 1, thereby enabling colour even 
 	on file outputs
 
 - `NEVER`, `OFF`, `-1`
-	- automatically sets OverwriteColor to -1, thereby disabling color even
+	- automatically sets OverwriteColor to -1, thereby disabling colour even
 	on terminals
 
 ### `GLOG_LEVEL`
@@ -136,9 +135,9 @@ Sets the level to the specified value. Special cases:
 ### `GLOG_METALOGGER`
 
 - `1`
-	- enable the built in meta-logger (the logger, logging activities of
+	- enable the built-in meta-logger (the logger, logging activities of
 	the logging library). *DO NOT USE THIS UNLESS YOU HAVE GOOD REASON!* It
-	look horrible.
+	looks horrible.
 
 ## Contribute
 
