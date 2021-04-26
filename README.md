@@ -140,9 +140,15 @@ Sets the level to the specified value. Special cases:
 	the logging library). *DO NOT USE THIS UNLESS YOU HAVE GOOD REASON!* It
 	look horrible.
 
+## Contribute
+
+Contributions   are   welcome   from   anyone.   Just   send   a   patchset   to
+[~poldi1405/patches@lists.sr.ht](mailto:~poldi1405/patches@lists.sr.ht)      and
+wait for feedback.
+
 ## License
 
-&copy; Moritz Poldrack
+&copy; Moritz Poldrack and [contributors](CONTRIBUTORS.md)
 
 gLog is a gun unter the MPL-2.0
 
