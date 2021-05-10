@@ -48,20 +48,10 @@ func setupEnv() {
 	ansi.EnableANSI()
 
 	switch strings.ToUpper(os.Getenv("GLOG_COLOR")) {
-	case "1":
-		fallthrough
-	case "ON":
-		fallthrough
-	case "ALWAYS":
+	case "1", "ON", "ALWAYS":
 		OverwriteColor = 1
 		metalog("set colormode to always from environment")
-	case "-1":
-		fallthrough
-	case "0":
-		fallthrough
-	case "OFF":
-		fallthrough
-	case "NEVER":
+	case "-1", "0", "OFF", "NEVER":
 		OverwriteColor = -1
 		metalog("set colormode to never from environment")
 	default:
@@ -83,9 +73,7 @@ func setupEnv() {
 		LogLevel = INFO
 		levelSetFromEnv = true
 		metalog("set loglevel to info from environment")
-	case "WARN":
-		fallthrough
-	case "WARNING":
+	case "WARN", "WARNING":
 		LogLevel = WARNING
 		levelSetFromEnv = true
 		metalog("set loglevel to warning from environment")
@@ -97,9 +85,7 @@ func setupEnv() {
 		LogLevel = FATAL
 		levelSetFromEnv = true
 		metalog("set loglevel to fatal from environment")
-	case "MUTE":
-		fallthrough
-	case "SILENT":
+	case "MUTE", "SILENT":
 		LogLevel = 42
 		levelSetFromEnv = true
 		metalog("set loglevel to silent from environment")
