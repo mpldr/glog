@@ -48,6 +48,20 @@ func TestSetStyle(t *testing.T) {
 	styleFuncs = tmp
 }
 
+func TestSetStyleInvalid(t *testing.T) {
+	tmp := styleFuncs
+
+	SetStyle(42, ansi.Blue)
+	for k, v := range styleFuncs {
+		if *(*uintptr)(unsafe.Pointer(&tmp[k])) != *(*uintptr)(unsafe.Pointer(&v)) {
+			t.Fail()
+		}
+	}
+
+	// reset
+	styleFuncs = tmp
+}
+
 func TestFatalStyle(t *testing.T) {
 	str := "test string"
 	fatalStr := ansi.Blink(ansi.Bold(ansi.Red(str)))
