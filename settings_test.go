@@ -25,3 +25,17 @@ func TestSetShowCaller(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestSetShowCallerInvalid(t *testing.T) {
+	tmp := showCaller
+
+	SetShowCaller(42, false)
+	for k, v := range showCaller {
+		if tmp[k] != v {
+			t.Fail()
+		}
+	}
+
+	// reset
+	showCaller = tmp
+}
