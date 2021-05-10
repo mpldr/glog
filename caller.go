@@ -1,6 +1,10 @@
 package glog
 
-import "runtime"
+import (
+	"fmt"
+	"runtime"
+	"strings"
+)
 
 // GetCaller returns the calling function. skipFrames indicates how far up the
 // ladder we go when looking for the caller (2 = direct caller, 3 = caller of
@@ -27,5 +31,17 @@ func GetCaller(skipFrames int) string {
 	}
 
 	metalog("returning caller:", frame.Function)
-	return frame.Function
+
+	caller := frame.Function
+
+	if ShowCallerLine {
+		caller = fmt.Sprintf("%s:%d", frame.File, frame.Line)
+	}
+
+	if ShortCaller {
+		path := strings.Split(caller, "/")
+		caller = path[len(path)-1]
+	}
+
+	return caller
 }

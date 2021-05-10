@@ -25,6 +25,13 @@ var (
 	// don't hesitate it at: https://todo.sr.ht/~poldi1405/issues
 	// (no account needed)
 	EnableMetaLogging bool
+	// ShortCaller indicates whether the printed caller should be shortened
+	// to only include the package and it's function instead of the entire
+	// import-path.
+	ShortCaller = true
+	// ShowCallerLine displays file and line as the caller instead of the
+	// function that called.
+	ShowCallerLine bool
 )
 
 // SetShowCaller allows defining for what levels the caller is displayed in the
