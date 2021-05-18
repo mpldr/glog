@@ -117,17 +117,17 @@ func main() {
 
 All environment-variable *values* (not the variables themselves) are case insensitive.
 
-### `GLOG_COLOR`
+#### `GLOG_COLOR`
 
 - `ALWAYS`, `ON`, `1`
-	- automatically sets OverwriteColor to 1, thereby enabling colour even 
+	- automatically sets OverrideColor to 1, thereby enabling colour even 
 	on file outputs
 
 - `NEVER`, `OFF`, `-1`
-	- automatically sets OverwriteColor to -1, thereby disabling colour even
+	- automatically sets OverrideColor to -1, thereby disabling colour even
 	on terminals
 
-### `GLOG_LEVEL`
+#### `GLOG_LEVEL`
 
 Sets the level to the specified value. Special cases:
 
@@ -137,18 +137,26 @@ Sets the level to the specified value. Special cases:
 - `MUTE`, `SILENT`
 	- disable every and all log-output
 
-### `GLOG_METALOGGER`
+#### `GLOG_METALOGGER`
 
 - `1`
 	- enable the built-in meta-logger (the logger, logging activities of
 	the logging library). *DO NOT USE THIS UNLESS YOU HAVE GOOD REASON!* It
 	looks horrible.
 
+#### `NO_COLOR`
+
+glog respects [`NO_COLOR`](https://no-color.org)
+
 ## Contribute
 
-Contributions   are   welcome   from   anyone.   Just   send   a   patchset   to
-[~poldi1405/patches@lists.sr.ht](mailto:~poldi1405/patches@lists.sr.ht)      and
-wait for feedback.
+Contributions are welcome from anyone. Just send a patchset to
+[~poldi1405/patches@lists.sr.ht](mailto:~poldi1405/patches@lists.sr.ht) and
+wait for feedback. For general questions or other communications feel free to
+drop a message to
+[~poldi1405/discussion@lists.sr.ht](mailto:~poldi1405/discussion@lists.sr.ht)
+
+Updates will be announced [here](https://lists.sr.ht/~poldi1405/updates)
 
 ## License
 

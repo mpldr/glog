@@ -41,12 +41,12 @@ func TestEnvSetColor(t *testing.T) {
 			}
 			t.Cleanup(func() { os.Setenv("GLOG_COLOR", origval) })
 
-			oc := OverwriteColor
-			t.Cleanup(func() { OverwriteColor = oc })
+			oc := OverrideColor
+			t.Cleanup(func() { OverrideColor = oc })
 			setupEnv()
 
-			if OverwriteColor != res {
-				t.Errorf("did not set color to expected value. value '%s' lead to value '%d', but '%d' was expected", env, OverwriteColor, res)
+			if OverrideColor != res {
+				t.Errorf("did not set color to expected value. value '%s' lead to value '%d', but '%d' was expected", env, OverrideColor, res)
 			}
 		})
 	}

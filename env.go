@@ -11,11 +11,11 @@ import (
 var (
 	stdout os.FileInfo
 	stderr os.FileInfo
-	// OverwriteColor allows overwriting the coloring mode. 0 = auto;
+	// OverrideColor allows overwriting the coloring mode. 0 = auto;
 	// 1 = always; -1 = never
 	//
 	// This can also be set using the Environment-variable `GLOG_COLOR`
-	OverwriteColor int8
+	OverrideColor int8
 	// LogLevel indicates the level of verbosity to use when logging.
 	// Messages below the specified level are discarded. Usually you want to
 	// use SetLevel() to ensure that overrides are correctly applied.
@@ -49,13 +49,14 @@ func setupEnv() {
 
 	switch strings.ToUpper(os.Getenv("GLOG_COLOR")) {
 	case "1", "ON", "ALWAYS":
-		OverwriteColor = 1
+		OverrideColor = 1
 		metalog("set colormode to always from environment")
+		ansi.OverrideNoColor()
 	case "-1", "0", "OFF", "NEVER":
-		OverwriteColor = -1
+		OverrideColor = -1
 		metalog("set colormode to never from environment")
 	default:
-		OverwriteColor = 0
+		OverrideColor = 0
 	}
 
 	switch strings.ToUpper(os.Getenv("GLOG_LEVEL")) {

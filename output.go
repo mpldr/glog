@@ -168,7 +168,7 @@ func writeToOutput(lvl Level, message string) {
 	var errs []error
 	var err error
 	for _, out := range outputs[lvl] {
-		if isTerminal(out) {
+		if isTerminal(out) && OverrideColor >= 1 {
 			_, err = out.Write([]byte(message))
 		} else {
 			_, err = out.Write([]byte(ansi.StripString(message)))
