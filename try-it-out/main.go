@@ -35,6 +35,9 @@ func main() {
 	glog.Warn("this is a Warning message")
 	glog.Error("this is an Error message")
 	glog.Fatal("this is a Fatal message")
+	glog.Debug("this caller only shows the function")
+	glog.ShowCallerLine = true
+	glog.Debug("this caller shows the line")
 	teenie()
 }
 
