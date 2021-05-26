@@ -5,6 +5,32 @@ import (
 	"time"
 )
 
+// Log logs a message at the specified level
+func Log(lvl Level, message ...interface{}) {
+	metalog("received message", message, "at level", lvl)
+	if LogLevel > lvl {
+		metalog("Level is higher than", lvl, ". message discarded")
+		return
+	}
+
+	msg := fmt.Sprint(message...)
+	logLine := getLogLine(lvl, msg)
+	writeToOutput(lvl, logLine)
+}
+
+// Logf formats the input values as specified and writes them to the according channels
+func Logf(lvl Level, format string, values ...interface{}) {
+	metalog("received message", format, values, "at level", lvl)
+	if LogLevel > lvl {
+		metalog("Level is higher than", lvl, ". message discarded")
+		return
+	}
+
+	msg := fmt.Sprintf(format, values...)
+	logLine := getLogLine(lvl, msg)
+	writeToOutput(lvl, logLine)
+}
+
 // Trace logs a message at the TRACE level
 func Trace(message ...interface{}) {
 	metalog("received TRACE message", message)
