@@ -156,6 +156,8 @@ drop a message to
 
 Updates will be announced [here](https://lists.sr.ht/~poldi1405/updates)
 
+The changelog can be found [here](https://lists.sr.ht/~poldi1405/updates?search=%5Bglog%5D)
+
 ## License
 
 &copy; Moritz Poldrack and [contributors](CONTRIBUTORS.md)
