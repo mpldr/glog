@@ -1,6 +1,9 @@
 package glog
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 type Level uint8
 
@@ -116,6 +119,28 @@ func (lvl Level) Short() string {
 	default:
 		return "CRIT"
 	}
+}
+
+// ParseLevel takes in a string and returns the corresponding loglevel. If it
+// does not exist, default is returned instead.
+func ParseLevel(level string, fallback Level) Level {
+	var lvls map[string]Level = map[string]Level{
+		"TRACE":   TRACE,
+		"VERBOSE": TRACE,
+		"DEBUG":   DEBUG,
+		"INFO":    INFO,
+		"WARN":    WARNING,
+		"WARNING": WARNING,
+		"ERROR":   ERROR,
+		"ERR":     ERROR,
+		"FATAL":   FATAL,
+	}
+
+	if l, ok := lvls[strings.ToUpper(level)]; ok {
+		return l
+	}
+
+	return fallback
 }
 
 // ensure we conform to the stringer interface
