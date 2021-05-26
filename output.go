@@ -21,7 +21,7 @@ var outputs = [...][]io.Writer{
 var outputMtx sync.RWMutex
 
 // SetOutput removes all outputs and replaces them with the specified output. To
-// discard log messages to this level set the loglevel accordingly or use
+// discard log messages to a level set the loglevel accordingly or use
 // `io.Discard`
 func SetOutput(lvl Level, output io.Writer) {
 	if !isValid(lvl) {
@@ -49,7 +49,8 @@ func AddOutput(lvl Level, output io.Writer) {
 }
 
 // SetOutputBetween removes all outputs and replaces them with the specified
-// output. This is executed for all specified levels.
+// output. This is executed for all specified levels. For more information on
+// the inner workings of SetOutput* see the SetOutput() function.
 func SetOutputBetween(lowerLevel, upperLevel Level, output io.Writer) {
 	if !isValid(lowerLevel) || !isValid(upperLevel) {
 		return
@@ -83,7 +84,8 @@ func AddOutputBetween(lowerLevel, upperLevel Level, output io.Writer) {
 }
 
 // SetOutputAbove removes all outputs and replaces them with the specified
-// output. This is repeated for every specified level.
+// output. This is repeated for all specified levels. For more information on
+// the inner workings of SetOutput* see the SetOutput() function.
 func SetOutputAbove(lvl Level, output io.Writer) {
 	if !isValid(lvl) {
 		return
@@ -119,7 +121,8 @@ func AddOutputAbove(lvl Level, output io.Writer) {
 }
 
 // SetOutput removes all outputs and replaces them with the specified output.
-// This is repeated for every specified level.
+// This is repeated for all specified levels. For more information on
+// the inner workings of SetOutput* see the SetOutput() function.
 func SetOutputBelow(lvl Level, output io.Writer) {
 	if !isValid(lvl) {
 		return
