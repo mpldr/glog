@@ -132,6 +132,15 @@ func TestSetOutputBetween(t *testing.T) {
 	}
 }
 
+func ExampleSetOutputBetween() {
+	SetOutputBetween(DEBUG, ERROR, os.Stderr)
+	// is equal to
+	SetOutput(DEBUG, os.Stderr)
+	SetOutput(INFO, os.Stderr)
+	SetOutput(WARNING, os.Stderr)
+	SetOutput(ERROR, os.Stderr)
+}
+
 func TestAddOutputBetween(t *testing.T) {
 	AddOutputBetween(INFO, ERROR, os.Stderr)
 	for lvl := INFO; lvl <= ERROR; lvl++ {
@@ -176,6 +185,15 @@ func TestAddOutputBetween(t *testing.T) {
 	}
 }
 
+func ExampleAddOutputBetween() {
+	AddOutputBetween(DEBUG, ERROR, os.Stderr)
+	// is equal to
+	AddOutput(DEBUG, os.Stderr)
+	AddOutput(INFO, os.Stderr)
+	AddOutput(WARNING, os.Stderr)
+	AddOutput(ERROR, os.Stderr)
+}
+
 func TestSetOutputAbove(t *testing.T) {
 	SetOutputAbove(TRACE, os.Stderr)
 	for lvl := TRACE; lvl <= FATAL; lvl++ {
@@ -206,6 +224,14 @@ func TestSetOutputAbove(t *testing.T) {
 	if len(b.String()) > 0 {
 		t.Errorf("Did not return early from SetOutputAbove() although the given level (23) is not valid ")
 	}
+}
+
+func ExampleSetOutputAbove() {
+	SetOutputAbove(WARNING, os.Stderr)
+	// is equal to
+	SetOutput(WARNING, os.Stderr)
+	SetOutput(ERROR, os.Stderr)
+	SetOutput(FATAL, os.Stderr)
 }
 
 func TestAddOutputAbove(t *testing.T) {
@@ -240,6 +266,14 @@ func TestAddOutputAbove(t *testing.T) {
 	}
 }
 
+func ExampleAddOutputAbove() {
+	AddOutputAbove(WARNING, os.Stderr)
+	// is equal to
+	AddOutput(WARNING, os.Stderr)
+	AddOutput(ERROR, os.Stderr)
+	AddOutput(FATAL, os.Stderr)
+}
+
 func TestSetOutputBelow(t *testing.T) {
 	SetOutputBelow(DEBUG, os.Stderr)
 	for lvl := TRACE; lvl <= DEBUG; lvl++ {
@@ -272,6 +306,15 @@ func TestSetOutputBelow(t *testing.T) {
 	}
 }
 
+func ExampleSetOutputBelow() {
+	SetOutputBelow(WARNING, os.Stderr)
+	// is equal to
+	SetOutput(WARNING, os.Stderr)
+	SetOutput(INFO, os.Stderr)
+	SetOutput(DEBUG, os.Stderr)
+	SetOutput(TRACE, os.Stderr)
+}
+
 func TestAddOutputBelow(t *testing.T) {
 	AddOutputBelow(ERROR, os.Stderr)
 	for lvl := TRACE; lvl <= ERROR; lvl++ {
@@ -302,6 +345,15 @@ func TestAddOutputBelow(t *testing.T) {
 	if len(b.String()) > 0 {
 		t.Errorf("Did not return early from AddOutputBelow() although the given level (23) is not valid ")
 	}
+}
+
+func ExampleAddOutputBelow() {
+	AddOutputBelow(WARNING, os.Stderr)
+	// is equal to
+	AddOutput(WARNING, os.Stderr)
+	AddOutput(INFO, os.Stderr)
+	AddOutput(DEBUG, os.Stderr)
+	AddOutput(TRACE, os.Stderr)
 }
 
 func TestIsTerminal(t *testing.T) {
