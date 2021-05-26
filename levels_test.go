@@ -198,3 +198,25 @@ func TestSetLevel(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestParseLevel(t *testing.T) {
+	if ParseLevel("Warn", INFO) != WARNING {
+		t.Fail()
+	}
+
+	if ParseLevel("info", WARNING) != INFO {
+		t.Fail()
+	}
+
+	if ParseLevel("WARNING", INFO) != WARNING {
+		t.Fail()
+	}
+
+	if ParseLevel("qwer", WARNING) != WARNING {
+		t.Fail()
+	}
+
+	if ParseLevel("trac", Level(42)) != Level(42) {
+		t.Fail()
+	}
+}

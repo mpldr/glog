@@ -8,6 +8,76 @@ import (
 	"testing"
 )
 
+func TestLog(t *testing.T) {
+	lvl := LogLevel
+	var b bytes.Buffer
+	SetLevel(TRACE)
+	SetOutput(TRACE, &b)
+
+	msg := "test 123 !#*"
+	Log(TRACE, msg)
+	if !strings.HasPrefix(b.String(), "TRACE") {
+		t.Fail()
+	}
+	if !strings.HasSuffix(b.String(), GetCaller(0)+" – "+msg+"\n") {
+		t.Fail()
+	}
+
+	b.Reset()
+	SetShowCaller(TRACE, false)
+	msg = "\thallo"
+	Trace(msg)
+	if !strings.HasPrefix(b.String(), "TRACE") {
+		t.Fail()
+	}
+	if !strings.HasSuffix(b.String(), msg+"\n") {
+		t.Fail()
+	}
+	if strings.HasSuffix(b.String(), GetCaller(0)+" – "+msg+"\n") {
+		t.Fail()
+	}
+
+	// reset
+	SetShowCaller(TRACE, true)
+	SetOutput(TRACE, os.Stdout)
+	SetLevel(lvl)
+}
+
+func TestLogf(t *testing.T) {
+	lvl := LogLevel
+	var b bytes.Buffer
+	SetLevel(TRACE)
+	SetOutput(TRACE, &b)
+
+	msg := "test 123 !#*"
+	Logf(TRACE, "%s %d !#%c", "test", 123, '*')
+	if !strings.HasPrefix(b.String(), "TRACE") {
+		t.Fail()
+	}
+	if !strings.HasSuffix(b.String(), GetCaller(0)+" – "+msg+"\n") {
+		t.Fail()
+	}
+
+	b.Reset()
+	SetShowCaller(TRACE, false)
+	msg = "\thallo"
+	Tracef("\t%s", "hallo")
+	if !strings.HasPrefix(b.String(), "TRACE") {
+		t.Fail()
+	}
+	if !strings.HasSuffix(b.String(), msg+"\n") {
+		t.Fail()
+	}
+	if strings.HasSuffix(b.String(), GetCaller(0)+" – "+msg+"\n") {
+		t.Fail()
+	}
+
+	// reset
+	SetShowCaller(TRACE, true)
+	SetOutput(TRACE, os.Stdout)
+	SetLevel(lvl)
+}
+
 func TestTrace(t *testing.T) {
 	lvl := LogLevel
 	var b bytes.Buffer
@@ -461,7 +531,9 @@ func TestEarlyAbort(t *testing.T) {
 
 	type printFunc func(...interface{})
 
-	levels := []printFunc{Trace, Debug, Info, Warn, Error, Fatal}
+	logwrapper := func(a ...interface{}) { Log(TRACE, a...) }
+
+	levels := []printFunc{Trace, Debug, Info, Warn, Error, Fatal, logwrapper}
 
 	for i, f := range levels {
 		t.Run("print_"+Level(i).String(), func(t *testing.T) {
@@ -476,7 +548,9 @@ func TestEarlyAbort(t *testing.T) {
 
 	type printfFunc func(string, ...interface{})
 
-	levelsf := []printfFunc{Tracef, Debugf, Infof, Warnf, Errorf, Fatalf}
+	logfwrapper := func(f string, a ...interface{}) { Logf(TRACE, f, a...) }
+
+	levelsf := []printfFunc{Tracef, Debugf, Infof, Warnf, Errorf, Fatalf, logfwrapper}
 
 	for i, f := range levelsf {
 		t.Run("printf_"+Level(i).String(), func(t *testing.T) {
