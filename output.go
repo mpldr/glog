@@ -170,17 +170,25 @@ func writeToOutput(lvl Level, message string) {
 	defer outputMtx.RUnlock()
 	var errs []error
 	var err error
+	var wg sync.WaitGroup
+
 	for _, out := range outputs[lvl] {
-		if isTerminal(out) && OverrideColor >= 1 {
-			_, err = out.Write([]byte(message))
-		} else {
-			_, err = out.Write([]byte(ansi.StripString(message)))
-		}
-		if err != nil {
-			metalog("error writing log", err)
-			errs = append(errs, err)
-		}
+		wg.Add(1)
+		go func(out io.Writer) {
+			defer wg.Done()
+
+			if isTerminal(out) && OverrideColor >= 1 {
+				_, err = out.Write([]byte(message))
+			} else {
+				_, err = out.Write([]byte(ansi.StripString(message)))
+			}
+			if err != nil {
+				metalog("error writing log", err)
+				errs = append(errs, err)
+			}
+		}(out)
 	}
+	wg.Wait()
 
 	if len(errs) != 0 {
 		// just try to get word about the current error out
