@@ -169,13 +169,13 @@ func writeToOutput(lvl Level, message string) {
 	outputMtx.RLock()
 	defer outputMtx.RUnlock()
 	var errs []error
-	var err error
 	var wg sync.WaitGroup
 
 	for _, out := range outputs[lvl] {
 		wg.Add(1)
 		go func(out io.Writer) {
 			defer wg.Done()
+			var err error
 
 			if isTerminal(out) && OverrideColor >= 1 {
 				_, err = out.Write([]byte(message))
