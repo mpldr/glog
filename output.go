@@ -194,14 +194,18 @@ func writeToOutput(lvl Level, message string) {
 		// just try to get word about the current error out
 		for _, err := range errs {
 			for _, out := range outputs[lvl] {
-				if isTerminal(out) {
-					_, err = out.Write([]byte(getLogLine(ERROR, fmt.Sprintf("cannot write Log: %s. Attempted to write: %s", err, message))))
-				} else {
-					_, err = out.Write([]byte(ansi.StripString(getLogLine(ERROR, fmt.Sprintf("cannot write Log: %s. Attempted to write: %s", err, message)))))
-				}
+				wg.Add(1)
+				go func(out io.Writer) {
+					if isTerminal(out) {
+						_, err = out.Write([]byte(getLogLine(ERROR, fmt.Sprintf("cannot write Log: %s. Attempted to write: %s", err, message))))
+					} else {
+						_, err = out.Write([]byte(ansi.StripString(getLogLine(ERROR, fmt.Sprintf("cannot write Log: %s. Attempted to write: %s", err, message)))))
+					}
+				}(out)
 			}
 		}
 	}
+	wg.Wait()
 }
 
 func isTerminal(file io.Writer) bool {
