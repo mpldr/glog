@@ -177,7 +177,7 @@ func writeToOutput(lvl Level, message string) {
 			defer wg.Done()
 			var err error
 
-			if isTerminal(out) && OverrideColor >= 1 {
+			if isTerminal(out) && OverrideColor >= 0 {
 				_, err = out.Write([]byte(message))
 			} else {
 				_, err = out.Write([]byte(ansi.StripString(message)))
