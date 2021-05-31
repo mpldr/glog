@@ -177,7 +177,7 @@ func writeToOutput(lvl Level, message string) {
 			defer wg.Done()
 			var err error
 
-			if isTerminal(out) && OverrideColor >= 0 {
+			if colorTerminalOutput(out) {
 				_, err = out.Write([]byte(message))
 			} else {
 				_, err = out.Write([]byte(ansi.StripString(message)))
@@ -235,4 +235,23 @@ func isTerminal(file io.Writer) bool {
 	specialoutput = specialoutput || (fi.Mode()&os.ModeDevice == 0)
 
 	return stdoutput && !specialoutput
+}
+
+func colorTerminalOutput(output io.Writer) bool {
+	/* This function implements this truth table:
+	isTerminal Override Expected
+	1          0        1
+	0          0        0
+	1          1        1
+	0          1        1
+	1          -1       0
+	0          -1       0
+	*/
+
+	var isTerm int8
+	if isTerminal(output) {
+		isTerm = 1
+	}
+
+	return (isTerm + OverrideColor) > 0
 }
