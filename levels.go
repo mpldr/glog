@@ -67,7 +67,8 @@ func isValid(lvl Level) bool {
 	return lvl <= FATAL
 }
 
-// SetLevel allows setting the loglevel while
+// SetLevel allows setting the loglevel while preserving the level set using the
+// environment
 func SetLevel(lvl Level) bool {
 	if levelSetFromEnv {
 		return false
