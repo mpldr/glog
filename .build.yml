@@ -1,0 +1,16 @@
+image: archlinux
+packages:
+  - unzip
+  - git
+  - jre-openjdk-headless
+  - go
+secrets:
+  - 5e74845b-d8d0-4f96-ba35-16fa63b6f0df
+shell: false
+sources:
+- https://git.sr.ht/~poldi1405/glog
+tasks:
+  - code-review: |
+      cd glog
+      go test -v -trimpath -coverprofile=coverage.out
+      ~/sonarcloud_scan
