@@ -32,15 +32,34 @@ type Rotor struct {
 	fileMtx sync.Mutex
 }
 
-func NewRotor(path string) *Rotor {
-	return &Rotor{
+func NewRotor(path string, opts ...Option) *Rotor {
+	R := &Rotor{
 		filepath:    path,
 		Permissions: 0o600,
 		MaxFileSize: 32 * 1024 * 1024,
 		Retention:   2,
 		KeptPercent: 5,
-		Compress:    true,
+		compressor:  noCompression,
 	}
+
+	for _, o := range opts {
+		switch o {
+		case OptionReportErrors:
+			R.errorsEnabled = true
+			R.Errors = make(chan error)
+		case OptionNoCompression:
+			R.compressor = noCompression
+		case OptionGZip:
+			R.compressor = gzipCompression
+			R.compressExt = ".gz"
+		case OptionZlib:
+			R.compressor = gzipCompression
+			R.compressExt = ".zip"
+		}
+	}
+
+	return R
+}
 }
 
 func (R *Rotor) Write(bytes []byte) (int, error) {
