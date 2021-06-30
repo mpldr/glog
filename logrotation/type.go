@@ -135,11 +135,13 @@ func (R *Rotor) Write(bts []byte) (n int, err error) {
 	n, err = R.file.Write(bts)
 
 	R.size += uint64(n)
+
 	if R.size >= R.MaxFileSize {
 		err = R.rotateInsecure()
 		if err != nil && R.errorsEnabled {
 			R.Errors <- err
 		}
+		R.size = 0
 	}
 	return
 }
