@@ -11,6 +11,9 @@ var _ io.Writer = &Rotor{}
 type Rotor struct {
 	// filepath is the path of the logfile
 	filepath string
+	// Permissions indicate unix file permissions to apply. By default it's
+	// 0o600
+	Permissions os.FileMode
 	// MaxFileSize is after what time the file is truncated. Default: 32 MiB
 	MaxFileSize uint
 	// Retention is how many "old" logs are kept. Default: 2. This means you
@@ -32,6 +35,7 @@ type Rotor struct {
 func NewRotor(path string) *Rotor {
 	return &Rotor{
 		filepath:    path,
+		Permissions: 0o600,
 		MaxFileSize: 32 * 1024 * 1024,
 		Retention:   2,
 		KeptPercent: 5,
