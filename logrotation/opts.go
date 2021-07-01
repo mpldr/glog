@@ -12,4 +12,8 @@ const (
 	OptionGZip
 	// OptionZlib enables compression using zip
 	OptionZlib
+	// OptionNoSync disables the synchronous flag when opening logfiles this
+	// can yield double speed but may lead to data loss if the system is
+	// turned off before a flush to disk happened
+	OptionNoSync
 )

@@ -79,7 +79,7 @@ func (R *Rotor) rotateInsecure() (err error) {
 					return fmt.Errorf("cannot close destinationfile after rotation: %v", err)
 				}
 
-				fh, err := os.OpenFile(R.filepath, os.O_SYNC|os.O_APPEND|os.O_CREATE|os.O_WRONLY|os.O_TRUNC, R.Permissions)
+				fh, err := os.OpenFile(R.filepath, R.fileFlags|os.O_TRUNC, R.Permissions)
 				if err != nil {
 					return fmt.Errorf("cannot create new logfile: %v", err)
 				}
