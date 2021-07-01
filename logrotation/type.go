@@ -26,6 +26,10 @@ type Rotor struct {
 	// KeptPercent is how many % (of lines) are kept when using flowing-mode
 	// This value is only used if retention is 0 or below. The last x% of
 	// lines are kept and mark the starting point of the new log. Default: 5
+	//
+	// Please note that this is an approximation. The percent-position will
+	// sought and everything _after_ the next '\n' will be kept for the
+	// rotated file.
 	KeptPercent int
 	// compress indicates whether old logfiles are to be compressed. This
 	// makes rotating the log slightly longer while at the same time

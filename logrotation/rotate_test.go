@@ -146,3 +146,41 @@ func TestRotateGzip(t *testing.T) {
 		t.Errorf("cannot verify second rotated logfile: %v", err)
 	}
 }
+
+func TestRotateRemainder(t *testing.T) {
+	r := NewRotor("_test_rotation_remainder.log", OptionNoCompression)
+	r.Retention = 0
+	r.KeptPercent = 10
+
+	buf := bytes.NewBuffer([]byte{})
+	for i := 1; i <= 100; i++ {
+		buf.Write([]byte{byte(i), '\n'})
+	}
+
+	err := os.WriteFile(r.filepath, buf.Bytes(), 0o600)
+	if err != nil {
+		t.Skipf("cannot create testfile: %v", err)
+	}
+	t.Cleanup(func() { os.Remove(r.filepath) })
+
+	err = r.Open()
+	if err != nil {
+		t.Skipf("unable to open logfile: %v", err)
+	}
+
+	err = r.rotateInsecure()
+	if err != nil {
+		t.Errorf("rotating failed: %v", err)
+	}
+
+	content, err := os.ReadFile(r.filepath)
+	if err != nil || !reflect.DeepEqual(content, []byte{92, '\n', 93, '\n', 94, '\n', 95, '\n', 96, '\n', 97, '\n', 98, '\n', 99, '\n', 100, '\n'}) {
+		if len(content) == 0 {
+			err = errors.New("rotated file is empty")
+		} else if content[0] != 0 {
+			err = fmt.Errorf("wrong content.\nexpected: %v,\nbut got:  %v", []byte{92, '\n', 93, '\n', 94, '\n', 95, '\n', 96, '\n', 97, '\n', 98, '\n', 99, '\n', 100, '\n'}, content)
+		}
+
+		t.Errorf("cannot verify first rotated logfile: %v", err)
+	}
+}
