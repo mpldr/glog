@@ -4,7 +4,7 @@ Your silver bullet logging solution. Because that is definitely what the world
 needed: another logging library.
 
 ![Coverage](https://img.shields.io/static/v1?label=coverage&message=96%25&color=brightgreen&style=flat-square)
-![current Version: v0.3.1](https://img.shields.io/static/v1?label=version&message=0.3.1&color=red&style=flat-square)
+![current Version: v0.3.4](https://img.shields.io/static/v1?label=version&message=0.3.4&color=red&style=flat-square)
 ![License](https://img.shields.io/static/v1?label=license&message=MPL-2&color=blue&style=flat-square)
 [![godocs.io](https://godocs.io/git.sr.ht/~poldi1405/glog?status.svg)](https://godocs.io/git.sr.ht/~poldi1405/glog)
 
@@ -65,6 +65,15 @@ reasons; some of which are:
 | FATAL   | Errors that do not allow the Program to continue                  |
 
 ¹) "no news is good news" or so they say
+
+## Notes
+
+- Obviously, setting a low loglevel will slow down your program, as the writing
+  is not buffered and getting the caller is relatively expensive
+	- using StdOut/StdErr for logging decreases this time because it does
+	  not need to write to disk
+- The default of 32 MiB should hold about 400.000 Log Lines and compress them to
+  about 3 MiB once rotated
 
 ## Special Usage
 
