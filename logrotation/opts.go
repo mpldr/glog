@@ -16,4 +16,11 @@ const (
 	// can yield double speed but may lead to data loss if the system is
 	// turned off before a flush to disk happened
 	OptionNoSync
+	// OptionMaxCompression sets the compression level to maximum, thereby
+	// taking longer but achieving better compression
+	OptionMaxCompression
+	// OptionMinCompression sets the compression level to minimum, thereby
+	// speeding up compression drastically while also increasing the rotated
+	// filesize substantially
+	OptionMinCompression
 )

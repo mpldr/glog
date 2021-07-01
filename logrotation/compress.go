@@ -10,7 +10,7 @@ import (
 
 type CompressorFunc func(io.Writer, io.Reader) error
 
-func noCompression(output io.Writer, input io.Reader) error {
+func (R *Rotor) noCompression(output io.Writer, input io.Reader) error {
 	_, err := io.Copy(output, input)
 	if err != nil {
 		return fmt.Errorf("unable to copy file: %w", err)
@@ -19,7 +19,7 @@ func noCompression(output io.Writer, input io.Reader) error {
 	return nil
 }
 
-func gzipCompression(output io.Writer, input io.Reader) error {
+func (R *Rotor) gzipCompression(output io.Writer, input io.Reader) error {
 	zw, err := gzip.NewWriterLevel(output, flate.DefaultCompression)
 	if err != nil {
 		return fmt.Errorf("cannot create deflate writer for log-rotation: %w", err)
@@ -34,7 +34,7 @@ func gzipCompression(output io.Writer, input io.Reader) error {
 	return nil
 }
 
-func zlibCompression(output io.Writer, input io.Reader) error {
+func (R *Rotor) zlibCompression(output io.Writer, input io.Reader) error {
 	zw, err := zlib.NewWriterLevel(output, flate.DefaultCompression)
 	if err != nil {
 		return fmt.Errorf("cannot create zlib writer for log-rotation: %w", err)
