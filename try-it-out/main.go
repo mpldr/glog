@@ -3,8 +3,10 @@ package main
 import (
 	"fmt"
 	"io"
+	"math/rand"
 
 	"git.sr.ht/~poldi1405/glog"
+	"git.sr.ht/~poldi1405/glog/logrotation"
 )
 
 func main() {
@@ -38,6 +40,28 @@ func main() {
 	glog.Debug("this caller only shows the function")
 	glog.ShowCallerLine = true
 	glog.Debug("this caller shows the line")
+
+	glog.Info("10.000.000 lines will now be logged to a file and rotated on occasion")
+	r := logrotation.NewRotor("big.log")
+	r.Open()
+	defer r.Close()
+	glog.SetOutput(glog.INFO, r)
+
+	messages := []string{
+		"a user has logged in",
+		"please consider supporting on LiberaPay",
+		"place your ad here",
+		"i can't code UIs to save my life",
+		"no other platform allows this much freedom in window alignment",
+		"Windows 10 = Windows 7, but more Spyware",
+		"Windows 11 = macOS, but more Spyware?",
+	}
+
+	for i := 0; i < 10000000; i++ {
+		fmt.Printf("%8d/%8d\r", i, 10000000)
+		glog.Info(messages[rand.Intn(len(messages))])
+	}
+	fmt.Println()
 	teenie()
 }
 
