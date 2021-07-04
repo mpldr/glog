@@ -1,0 +1,84 @@
+package logrotation
+
+import (
+	"bytes"
+	"compress/gzip"
+	"compress/zlib"
+	"io"
+	"math/rand"
+	"reflect"
+	"testing"
+)
+
+var indata []byte
+
+func init() {
+	for i := 0; i < 32*1024*1024; i++ {
+		indata = append(indata, byte(rand.Intn(255)))
+	}
+}
+
+func TestOptionNoCompression(t *testing.T) {
+	r := NewRotor("_test_option_no_compression", OptionNoCompression)
+
+	inbuf := bytes.NewBuffer(indata)
+	outbuf := bytes.NewBuffer([]byte{})
+
+	r.compressor(outbuf, inbuf)
+
+	if !reflect.DeepEqual(indata, outbuf.Bytes()) {
+		t.Fail()
+	}
+}
+
+func TestOptionGzipCompression(t *testing.T) {
+	r := NewRotor("_test_option_gzip_compression", OptionGZip)
+
+	inbuf := bytes.NewBuffer(indata)
+	outbuf := bytes.NewBuffer([]byte{})
+	decompressor, err := gzip.NewReader(outbuf)
+	if err != nil {
+		t.Skipf("cannot create decompressor: %v", err)
+	}
+	decompressbuf := bytes.NewBuffer([]byte{})
+
+	err = r.compressor(outbuf, inbuf)
+	if err != nil {
+		t.Skipf("cannot compress data: %v", err)
+	}
+
+	io.Copy(decompressbuf, decompressor)
+	if err != nil {
+		t.Skipf("cannot decompress data: %v", err)
+	}
+
+	if !reflect.DeepEqual(indata, decompressbuf.Bytes()) {
+		t.Fail()
+	}
+}
+
+func TestOptionZlibCompression(t *testing.T) {
+	r := NewRotor("_test_option_zlib_compression", OptionZlib)
+
+	inbuf := bytes.NewBuffer(indata)
+	outbuf := bytes.NewBuffer([]byte{})
+	decompressor, err := zlib.NewReader(outbuf)
+	if err != nil {
+		t.Skipf("cannot create decompressor: %v", err)
+	}
+	decompressbuf := bytes.NewBuffer([]byte{})
+
+	err = r.compressor(outbuf, inbuf)
+	if err != nil {
+		t.Skipf("cannot compress data: %v", err)
+	}
+
+	io.Copy(decompressbuf, decompressor)
+	if err != nil {
+		t.Skipf("cannot decompress data: %v", err)
+	}
+
+	if !reflect.DeepEqual(indata, decompressbuf.Bytes()) {
+		t.Fail()
+	}
+}
