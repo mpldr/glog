@@ -19,12 +19,16 @@ func init() {
 }
 
 func TestOptionNoCompression(t *testing.T) {
+	t.Parallel()
 	r := NewRotor("_test_option_no_compression", OptionNoCompression)
 
 	inbuf := bytes.NewBuffer(indata)
 	outbuf := bytes.NewBuffer([]byte{})
 
-	r.compressor(outbuf, inbuf)
+	err := r.compressor(outbuf, inbuf)
+	if err != nil {
+		t.Errorf("cannot compress data: %v", err)
+	}
 
 	if !reflect.DeepEqual(indata, outbuf.Bytes()) {
 		t.Fail()
@@ -32,7 +36,8 @@ func TestOptionNoCompression(t *testing.T) {
 }
 
 func TestOptionGzipCompression(t *testing.T) {
-	r := NewRotor("_test_option_gzip_compression", OptionGZip)
+	t.Parallel()
+	r := NewRotor("_test_option_gzip_compression", OptionGZip, OptionMinCompression)
 
 	inbuf := bytes.NewBuffer(indata)
 	outbuf := bytes.NewBuffer([]byte{})
@@ -48,7 +53,7 @@ func TestOptionGzipCompression(t *testing.T) {
 	}
 	decompressbuf := bytes.NewBuffer([]byte{})
 
-	io.Copy(decompressbuf, decompressor)
+	_, err = io.Copy(decompressbuf, decompressor)
 	if err != nil {
 		t.Skipf("cannot decompress data: %v", err)
 	}
@@ -59,6 +64,7 @@ func TestOptionGzipCompression(t *testing.T) {
 }
 
 func TestOptionZlibCompression(t *testing.T) {
+	t.Parallel()
 	r := NewRotor("_test_option_zlib_compression", OptionZlib)
 
 	inbuf := bytes.NewBuffer(indata)
@@ -75,7 +81,7 @@ func TestOptionZlibCompression(t *testing.T) {
 	}
 	decompressbuf := bytes.NewBuffer([]byte{})
 
-	io.Copy(decompressbuf, decompressor)
+	_, err = io.Copy(decompressbuf, decompressor)
 	if err != nil {
 		t.Skipf("cannot decompress data: %v", err)
 	}

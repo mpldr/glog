@@ -62,7 +62,7 @@ type Rotor struct {
 // KeptPercent: 5,
 // Compression: gzip (Default Compression)
 func NewRotor(path string, opts ...uint8) *Rotor {
-	R := &Rotor{
+	r := &Rotor{
 		filepath:         path,
 		Permissions:      0o600,
 		MaxFileSize:      32 * 1024 * 1024,
@@ -72,45 +72,45 @@ func NewRotor(path string, opts ...uint8) *Rotor {
 		compressionLevel: flate.DefaultCompression,
 		fileFlags:        os.O_WRONLY | os.O_APPEND | os.O_CREATE | os.O_SYNC,
 	}
-	R.compressor = R.gzipCompression
+	r.compressor = r.gzipCompression
 
 	for _, o := range opts {
 		switch o {
 		case OptionReportErrors:
-			R.errorsEnabled = true
-			R.Errors = make(chan error)
+			r.errorsEnabled = true
+			r.Errors = make(chan error)
 		case OptionNoCompression:
-			R.compressor = R.noCompression
-			R.compressExt = ""
+			r.compressor = r.noCompression
+			r.compressExt = ""
 		case OptionGZip:
-			R.compressor = R.gzipCompression
-			R.compressExt = ".gz"
+			r.compressor = r.gzipCompression
+			r.compressExt = ".gz"
 		case OptionZlib:
-			R.compressor = R.zlibCompression
-			R.compressExt = ".zip"
+			r.compressor = r.zlibCompression
+			r.compressExt = ".zip"
 		case OptionNoSync:
-			R.fileFlags &= ^os.O_SYNC
+			r.fileFlags &= ^os.O_SYNC
 		case OptionMaxCompression:
-			R.compressionLevel = flate.BestCompression
+			r.compressionLevel = flate.BestCompression
 		case OptionMinCompression:
-			R.compressionLevel = flate.BestSpeed
+			r.compressionLevel = flate.BestSpeed
 		}
 	}
 
-	return R
+	return r
 }
 
-func (R *Rotor) isSync() bool {
-	return R.fileFlags&os.O_SYNC != 0
+func (r *Rotor) isSync() bool {
+	return r.fileFlags&os.O_SYNC != 0
 }
 
 // Open opens (or creates) the logfile specified when setting up the Rotor.
 // Closing this file is the responsibility of the user.
-func (R *Rotor) Open() error {
-	R.fileMtx.Lock()
-	defer R.fileMtx.Unlock()
+func (r *Rotor) Open() error {
+	r.fileMtx.Lock()
+	defer r.fileMtx.Unlock()
 
-	fh, err := os.OpenFile(R.filepath, R.fileFlags, R.Permissions)
+	fh, err := os.OpenFile(r.filepath, r.fileFlags, r.Permissions)
 	if err != nil {
 		return err
 	}
@@ -120,42 +120,44 @@ func (R *Rotor) Open() error {
 		return fmt.Errorf("cannot stat file: %v", err)
 	}
 
-	R.size = uint64(fi.Size())
-	R.file = fh
+	r.size = uint64(fi.Size())
+	r.file = fh
+
 	return nil
 }
 
 // Close closes the underlying filedescriptor
-func (R *Rotor) Close() error {
-	R.fileMtx.Lock()
-	defer R.fileMtx.Unlock()
+func (r *Rotor) Close() error {
+	r.fileMtx.Lock()
+	defer r.fileMtx.Unlock()
 
-	return R.file.Close()
+	return r.file.Close()
 }
 
 // SetCompressor allows setting a custom compression method for use when rotating
-func (R *Rotor) SetCompressor(cf CompressorFunc, ext string) {
-	R.fileMtx.Lock()
-	defer R.fileMtx.Unlock()
+func (r *Rotor) SetCompressor(cf CompressorFunc, ext string) {
+	r.fileMtx.Lock()
+	defer r.fileMtx.Unlock()
 
-	R.compressor = cf
-	R.compressExt = ext
+	r.compressor = cf
+	r.compressExt = ext
 }
 
-func (R *Rotor) Write(bts []byte) (n int, err error) {
-	R.fileMtx.Lock()
-	defer R.fileMtx.Unlock()
+func (r *Rotor) Write(bts []byte) (n int, err error) {
+	r.fileMtx.Lock()
+	defer r.fileMtx.Unlock()
 
-	n, err = R.file.Write(bts)
+	n, err = r.file.Write(bts)
 
-	R.size += uint64(n)
+	r.size += uint64(n)
 
-	if R.size >= R.MaxFileSize {
-		err = R.rotateInsecure()
-		if err != nil && R.errorsEnabled {
-			R.Errors <- err
+	if r.size >= r.MaxFileSize {
+		err = r.rotateInsecure()
+		if err != nil && r.errorsEnabled {
+			r.Errors <- err
 		}
-		R.size = 0
+		r.size = 0
 	}
+
 	return
 }

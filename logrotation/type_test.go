@@ -102,7 +102,7 @@ func BenchmarkWrite(b *testing.B) {
 		r := NewRotor("_bench_write_sync.log")
 		b.StartTimer()
 
-		r.Write(data)
+		r.Write(data) // ignore errors. just a benchmark
 
 		b.StopTimer()
 		r.Close()
@@ -114,7 +114,7 @@ func BenchmarkWrite(b *testing.B) {
 		r := NewRotor("_bench_write_nosync.log", OptionNoSync)
 		b.StartTimer()
 
-		r.Write(data)
+		r.Write(data) // ignore errors. just a benchmark
 
 		b.StopTimer()
 		r.Close()

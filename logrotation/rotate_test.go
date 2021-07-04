@@ -13,7 +13,11 @@ func TestRotateNoLogFile(t *testing.T) {
 	// no existing file, create one
 	r := NewRotor("_test_no_file_exists.log")
 
-	r.Rotate()
+	err := r.Rotate()
+	if err != nil {
+		t.Errorf("Rotation failed: %v", err)
+	}
+
 	t.Cleanup(func() { os.Remove("_test_no_file_exists.log") })
 
 	if !fileExists("_test_no_file_exists.log") {
@@ -95,10 +99,14 @@ func TestRotateGzip(t *testing.T) {
 		buf := bytes.NewBuffer([]byte{})
 		trg := bytes.NewBuffer([]byte{})
 		buf.Write([]byte{byte(i)})
-		r.gzipCompression(trg, buf)
+
+		err := r.gzipCompression(trg, buf)
+		if err != nil {
+			t.Errorf("cannot compress file: %v", err)
+		}
 
 		filename := fmt.Sprintf(r.filepath+".%d.gz", i)
-		err := os.WriteFile(filename, trg.Bytes(), 0o600)
+		err = os.WriteFile(filename, trg.Bytes(), 0o600)
 		if err != nil {
 			t.Skipf("cannot create testfile: %v", err)
 		}
