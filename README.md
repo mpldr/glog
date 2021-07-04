@@ -7,6 +7,7 @@ needed: another logging library.
 ![current Version: v0.3.4](https://img.shields.io/static/v1?label=version&message=0.3.4&color=red&style=flat-square)
 ![License](https://img.shields.io/static/v1?label=license&message=MPL-2&color=blue&style=flat-square)
 [![godocs.io](https://img.shields.io/badge/godoc-reference-blue?style=flat-square)](https://godocs.io/git.sr.ht/~poldi1405/glog)
+![no non-stdlib deps that must be credited](https://img.shields.io/badge/external_dependencies-0-green?style=flat-square)\*
 
 ## Features
 
@@ -168,6 +169,10 @@ Updates will be announced [here](https://lists.sr.ht/~poldi1405/updates)
 The changelog can be found [here](https://lists.sr.ht/~poldi1405/updates?search=%5Bglog%5D)
 
 ## License
+
+\* the claim 0 external dependencies refers to 0 dependencies that have to be
+   credited. By crediting this package, the crediting for the only external
+   dependency is also fulfilled
 
 &copy; Moritz Poldrack and [contributors](CONTRIBUTORS.md)
 
