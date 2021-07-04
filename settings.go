@@ -32,6 +32,8 @@ var (
 	// ShowCallerLine displays file and line as the caller instead of the
 	// function that called.
 	ShowCallerLine bool
+	// PanicLogFile is the file panics are logged to.
+	PanicLogFile = "panic.log"
 )
 
 // SetShowCaller allows defining for what levels the caller is displayed in the

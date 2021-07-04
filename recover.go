@@ -18,7 +18,7 @@ func PanicHandler() {
 		return
 	}
 
-	panicLog, err := os.OpenFile("panic.log", os.O_SYNC|os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0o600)
+	panicLog, err := os.OpenFile(PanicLogFile, os.O_SYNC|os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0o600)
 	if err != nil {
 		// we tried, not possible. bye
 		panic(r)
