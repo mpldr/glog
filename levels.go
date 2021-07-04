@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+// Level is an alias to allow attaching functions to Loglevels.
 type Level uint8
 
 const (
@@ -16,7 +17,7 @@ const (
 	FATAL
 )
 
-// levelsBelow returns a list of levels equal or above the indicated levels
+// levelsAbove returns a list of levels equal or above the indicated levels
 func levelsAbove(lvl Level) (levels []Level) {
 	if !isValid(lvl) {
 		return
@@ -125,7 +126,7 @@ func (lvl Level) Short() string {
 // ParseLevel takes in a string and returns the corresponding loglevel. If it
 // does not exist, default is returned instead.
 func ParseLevel(level string, fallback Level) Level {
-	var lvls map[string]Level = map[string]Level{
+	lvls := map[string]Level{
 		"TRACE":   TRACE,
 		"VERBOSE": TRACE,
 		"DEBUG":   DEBUG,

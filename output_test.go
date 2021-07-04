@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	tmp bool = EnableMetaLogging
+	tmp = EnableMetaLogging
 	b   bytes.Buffer
 )
 

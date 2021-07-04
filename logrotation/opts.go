@@ -1,7 +1,5 @@
 package logrotation
 
-type Option uint8
-
 const (
 	// OptionReportErrors enables the error reporting channel that informs
 	// about errors that happen in the background and are otherwise ignored

@@ -10,6 +10,8 @@ import (
 
 var _ io.Writer = &Rotor{}
 
+// Rotor is the struct containing all Settings, file handlers, and functions
+// required for logrotation.
 type Rotor struct {
 	// filepath is the path of the logfile
 	filepath string
@@ -59,7 +61,7 @@ type Rotor struct {
 // Retention:   2,
 // KeptPercent: 5,
 // Compression: gzip (Default Compression)
-func NewRotor(path string, opts ...Option) *Rotor {
+func NewRotor(path string, opts ...uint8) *Rotor {
 	R := &Rotor{
 		filepath:         path,
 		Permissions:      0o600,
@@ -98,6 +100,12 @@ func NewRotor(path string, opts ...Option) *Rotor {
 	return R
 }
 
+func (R *Rotor) isSync() bool {
+	return R.fileFlags&os.O_SYNC != 0
+}
+
+// Open opens (or creates) the logfile specified when setting up the Rotor.
+// Closing this file is the responsibility of the user.
 func (R *Rotor) Open() error {
 	R.fileMtx.Lock()
 	defer R.fileMtx.Unlock()
@@ -117,6 +125,7 @@ func (R *Rotor) Open() error {
 	return nil
 }
 
+// Close closes the underlying filedescriptor
 func (R *Rotor) Close() error {
 	R.fileMtx.Lock()
 	defer R.fileMtx.Unlock()
@@ -124,6 +133,7 @@ func (R *Rotor) Close() error {
 	return R.file.Close()
 }
 
+// SetCompressor allows setting a custom compression method for use when rotating
 func (R *Rotor) SetCompressor(cf CompressorFunc, ext string) {
 	R.fileMtx.Lock()
 	defer R.fileMtx.Unlock()

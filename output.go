@@ -102,8 +102,8 @@ func SetOutputAbove(lvl Level, output io.Writer) {
 	}
 }
 
-// AddOutput adds the specified output to the list of outputs for the specified
-// levels.
+// AddOutputAbove adds the specified output to the list of outputs for the
+// levels including and above the specified levels.
 func AddOutputAbove(lvl Level, output io.Writer) {
 	if !isValid(lvl) {
 		return
@@ -120,7 +120,7 @@ func AddOutputAbove(lvl Level, output io.Writer) {
 	}
 }
 
-// SetOutput removes all outputs and replaces them with the specified output.
+// SetOutputBelow removes all outputs and replaces them with the specified output.
 // This is repeated for all specified levels. For more information on
 // the inner workings of SetOutput* see the SetOutput() function.
 func SetOutputBelow(lvl Level, output io.Writer) {
@@ -139,7 +139,7 @@ func SetOutputBelow(lvl Level, output io.Writer) {
 	}
 }
 
-// AddOutput adds the specified output to the list of outputs for the specified
+// AddOutputBelow adds the specified output to the list of outputs for the specified
 // levels.
 func AddOutputBelow(lvl Level, output io.Writer) {
 	if !isValid(lvl) {

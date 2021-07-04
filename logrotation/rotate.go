@@ -9,7 +9,8 @@ import (
 	"strconv"
 )
 
-// Rotate
+// Rotate triggers a rotation, independent of whether the limit size is reached
+// or not.
 func (R *Rotor) Rotate() (err error) {
 	R.fileMtx.Lock()
 	defer R.fileMtx.Unlock()
@@ -17,7 +18,8 @@ func (R *Rotor) Rotate() (err error) {
 	return R.rotateInsecure()
 }
 
-// Rotate
+// rotateInsecure is doing the actual rotating. It exists to not unlock the
+// mutex between last write and rotation.
 func (R *Rotor) rotateInsecure() (err error) {
 	if !fileExists(R.filepath) {
 		fh, err := os.OpenFile(R.filepath, os.O_SYNC|os.O_APPEND|os.O_CREATE|os.O_WRONLY, R.Permissions)
@@ -30,11 +32,14 @@ func (R *Rotor) rotateInsecure() (err error) {
 
 	if R.Retention > 0 {
 		return R.rotateWithRetention()
-	} else {
-		return R.rotateWithRemain()
 	}
+	return R.rotateWithRemain()
 }
 
+// rotateWithRetention keeps entire logfiles and just does a common file
+// rotation where the original logfile is compressed, and older archived
+// logs have their number increased. If a log exceeds the retention limit after
+// the rotation, it is deleted.
 func (R *Rotor) rotateWithRetention() (err error) {
 	dir := filepath.Dir(R.filepath) + string(os.PathSeparator)
 	basename := filepath.Base(R.filepath)
@@ -103,6 +108,9 @@ func (R *Rotor) rotateWithRetention() (err error) {
 	return nil
 }
 
+// rotateWithRemain takes the last x% (x being the set KeptPercent in the
+// struct), truncates the logfile and writes the kept percentage of the logfile
+// back. Thereby creating more of a floating-window log.
 func (R *Rotor) rotateWithRemain() (err error) {
 	err = R.file.Close()
 	if err != nil {

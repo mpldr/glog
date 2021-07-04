@@ -36,16 +36,17 @@ func TestOptionGzipCompression(t *testing.T) {
 
 	inbuf := bytes.NewBuffer(indata)
 	outbuf := bytes.NewBuffer([]byte{})
+
+	err := r.compressor(outbuf, inbuf)
+	if err != nil {
+		t.Skipf("cannot compress data: %v", err)
+	}
+
 	decompressor, err := gzip.NewReader(outbuf)
 	if err != nil {
 		t.Skipf("cannot create decompressor: %v", err)
 	}
 	decompressbuf := bytes.NewBuffer([]byte{})
-
-	err = r.compressor(outbuf, inbuf)
-	if err != nil {
-		t.Skipf("cannot compress data: %v", err)
-	}
 
 	io.Copy(decompressbuf, decompressor)
 	if err != nil {
@@ -62,16 +63,17 @@ func TestOptionZlibCompression(t *testing.T) {
 
 	inbuf := bytes.NewBuffer(indata)
 	outbuf := bytes.NewBuffer([]byte{})
+
+	err := r.compressor(outbuf, inbuf)
+	if err != nil {
+		t.Skipf("cannot compress data: %v", err)
+	}
+
 	decompressor, err := zlib.NewReader(outbuf)
 	if err != nil {
 		t.Skipf("cannot create decompressor: %v", err)
 	}
 	decompressbuf := bytes.NewBuffer([]byte{})
-
-	err = r.compressor(outbuf, inbuf)
-	if err != nil {
-		t.Skipf("cannot compress data: %v", err)
-	}
 
 	io.Copy(decompressbuf, decompressor)
 	if err != nil {

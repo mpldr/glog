@@ -8,6 +8,8 @@ import (
 	"io"
 )
 
+// CompressorFunc specifies the layout required to set custom compressors for
+// the logfiles.
 type CompressorFunc func(io.Writer, io.Reader) error
 
 func (R *Rotor) noCompression(output io.Writer, input io.Reader) error {

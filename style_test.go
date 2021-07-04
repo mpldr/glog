@@ -14,15 +14,15 @@ func TestDefaultLogFormat(t *testing.T) {
 
 	message := "test message"
 	formattedMsg := fmt.Sprintf(logFormat, styleFuncs[DEBUG](DEBUG.Short()), timestamp.Format(TimeFormat), GetCaller(0)+" – ", message)
-	formattedMsg_test := defaultLogFormat(DEBUG, timestamp, GetCaller(0), message)
-	if formattedMsg != formattedMsg_test {
+	formattedmsgTest := defaultLogFormat(DEBUG, timestamp, GetCaller(0), message)
+	if formattedMsg != formattedmsgTest {
 		t.Fail()
 	}
 
 	message = "test 123 !#*"
 	formattedMsg = fmt.Sprintf(logFormat, styleFuncs[DEBUG](DEBUG.Short()), timestamp.Format(TimeFormat), GetCaller(0)+" – ", message)
-	formattedMsg_test = defaultLogFormat(DEBUG, timestamp, GetCaller(0), message)
-	if formattedMsg != formattedMsg_test {
+	formattedmsgTest = defaultLogFormat(DEBUG, timestamp, GetCaller(0), message)
+	if formattedMsg != formattedmsgTest {
 		t.Fail()
 	}
 }
