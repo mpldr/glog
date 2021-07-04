@@ -1,7 +1,7 @@
 # gLog
 
-Your silver bullet logging solution. Because that is definitely what the world
-needed: another logging library.
+Your silver bullet logging solution. Because that is definitely what
+the world needed: another logging library.
 
 ![Coverage](https://img.shields.io/static/v1?label=coverage&message=89%25&color=brightgreen&style=flat-square)
 ![current Version: v0.3.4](https://img.shields.io/static/v1?label=version&message=0.3.4&color=red&style=flat-square)
@@ -29,29 +29,30 @@ gLog supports the following features:
 
 The output follows this structure:
 
-```
-%level:\t%time – %caller – …
-```
+``` %level:\t%time – %caller – … ```
 
-`%level` is coloured by  default when logging  to stdout  or stderr.  It  can be
-enabled and disabled at will.
+`%level` is coloured by  default when logging  to stdout  or stderr.
+It  can be enabled and disabled at will.
 
-`%time` is in the ISO-8601 format working with nanosecond precision (if supported)
+`%time` is in the ISO-8601 format working with nanosecond precision
+(if supported)
 
-`%caller` is the  name  (format:  `package.function`)  of  the  function that is
-logging the message.  By default, this does not happen for `INFO` and `WARNING`.
+`%caller` is the  name  (format:  `package.function`)  of  the
+function that is logging the message.  By default, this does not
+happen for `INFO` and `WARNING`.
 
 ### Why `–` and not `-`
 
-I  decided  to  use  [U+2013](https://codepoints.net/U+2013)  (EN  DASH)  over a
-normal [U+002D](https://codepoints.net/U+002D)  (HYPHEN-MINUS)  due  to multiple
-reasons; some of which are:
+I  decided  to  use  [U+2013](https://codepoints.net/U+2013)  (EN
+DASH)  over a normal [U+002D](https://codepoints.net/U+002D)
+(HYPHEN-MINUS)  due  to multiple reasons; some of which are:
 
 - `2D` is not at all unlikely to appear in a log-message
 - they look very similar while they can still be distinguished
 - it is also in most fonts used in a terminal
 	- if it is not in your's think about changing fonts
-- it allows for easy splitting and processing of logs with tools like `cut` or `awk`
+- it allows for easy splitting and processing of logs with tools like
+  `cut` or `awk`
 - you don't have to type it by hand anyway
 
 ## Levels
@@ -69,110 +70,42 @@ reasons; some of which are:
 
 ## Notes
 
-- Obviously, setting a low loglevel will slow down your program, as the writing
-  is not buffered and getting the caller is relatively expensive
-	- using StdOut/StdErr for logging decreases this time because it does
-	  not need to write to disk
-- The default of 32 MiB should hold about 400.000 Log Lines and compress them to
-  about 3 MiB once rotated
+- Obviously, setting a low loglevel will slow down your program, as
+  the writing is not buffered and getting the caller is relatively
+  expensive
+	- using StdOut/StdErr for logging decreases this time because
+	  it does not need to write to disk
+- The default of 32 MiB should hold about 400.000 Log Lines and
+  compress them to about 3 MiB once rotated
 
-## Special Usage
+## Learn more
 
-### Panic Handling
+You can find more information in [this project's
+wiki](https://man.sr.ht/~poldi1405/glog/)
 
-Simply defer  the `PanicHandler` in  your main function.  All  panics that occur
-will automatically be logged to a separate file.
-
-```go
-func main() {
-	defer glog.PanicHandler()
-	// … do you program stuff …
-}
-```
-
-### Multiple outputs
-
-All log-levels can have nearly unlimited outputs. To add another output for a
-certain Level use the `AddOutput*` functions.
-
-```go
-func main() {
-	dbglogfh, err := glog.AddLogFile("debug.log", TRACE, DEBUG)
-	if err != nil {
-		glog.Errorf("cannot open file for debug logging")
-	}
-	defer dbglogfh.Close()
-	// … any calls to glog.Debug() and glog.Trace() will be printed to 
-	// screen and written to the file `debug.log`
-}
-```
-
-### Custom message format
-
-If for whatever reason you dislike the default log-format, you can set a custom
-format like so:
-
-```go
-func main() {
-	glog.Logformatter = func(lvl Level, t time.Time, caller, message string) string {
-		return fmt.Sprintf("%s logged %s on level %s at %s", caller, message, level, t.Format(glog.TimeFormat))
-	}
-	glog.Debug("witness my new format!")
-}
-```
-
-### Environment Variables
-
-All environment-variable *values* (not the variables themselves) are case insensitive.
-
-#### `GLOG_COLOR`
-
-- `ALWAYS`, `ON`, `1`
-	- automatically sets OverrideColor to 1, thereby enabling colour even 
-	on file outputs
-
-- `NEVER`, `OFF`, `-1`
-	- automatically sets OverrideColor to -1, thereby disabling colour even
-	on terminals
-
-#### `GLOG_LEVEL`
-
-Sets the level to the specified value. Special cases:
-
-- `VERBOSE`
-	- an alias for `TRACE`
-
-- `MUTE`, `SILENT`
-	- disable every and all log-output
-
-#### `GLOG_METALOGGER`
-
-- `1`
-	- enable the built-in meta-logger (the logger, logging activities of
-	the logging library). *DO NOT USE THIS UNLESS YOU HAVE GOOD REASON!* It
-	looks horrible.
-
-#### `NO_COLOR`
+### `NO_COLOR`
 
 glog respects [`NO_COLOR`](https://no-color.org)
 
 ## Contribute
 
 Contributions are welcome from anyone. Just send a patchset to
-[~poldi1405/patches@lists.sr.ht](mailto:~poldi1405/patches@lists.sr.ht) and
-wait for feedback. For general questions or other communications feel free to
-drop a message to
+[~poldi1405/patches@lists.sr.ht](mailto:~poldi1405/patches@lists.sr.ht)
+and wait for feedback. For general questions or other communications
+feel free to drop a message to
 [~poldi1405/discussion@lists.sr.ht](mailto:~poldi1405/discussion@lists.sr.ht)
 
-Updates will be announced [here](https://lists.sr.ht/~poldi1405/updates)
+Updates will be announced
+[here](https://lists.sr.ht/~poldi1405/updates)
 
-The changelog can be found [here](https://lists.sr.ht/~poldi1405/updates?search=%5Bglog%5D)
+The changelog can be found
+[here](https://lists.sr.ht/~poldi1405/updates?search=%5Bglog%5D)
 
 ## License
 
-\* the claim 0 external dependencies refers to 0 dependencies that have to be
-   credited. By crediting this package, the crediting for the only external
-   dependency is also fulfilled
+\* the claim 0 external dependencies refers to 0 dependencies that
+   have to be credited. By crediting this package, the crediting for the
+   only external dependency is also fulfilled
 
 &copy; Moritz Poldrack and [contributors](CONTRIBUTORS.md)
 
@@ -180,5 +113,7 @@ gLog is a gun unter the MPL-2.0
 
 To learn more you may:
 - read the license-text [here](https://www.mozilla.org/en-US/MPL/2.0/)
-- take a look at the official [FAQs](https://www.mozilla.org/en-US/MPL/2.0/FAQ/)
-- take a look at a summary at [TLDRLegal](https://www.tldrlegal.com/l/mpl-2.0)
+- take a look at the official
+  [FAQs](https://www.mozilla.org/en-US/MPL/2.0/FAQ/)
+- take a look at a summary at
+  [TLDRLegal](https://www.tldrlegal.com/l/mpl-2.0)
