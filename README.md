@@ -3,7 +3,7 @@
 Your silver bullet logging solution. Because that is definitely what
 the world needed: another logging library.
 
-![Coverage](https://img.shields.io/static/v1?label=coverage&message=89%25&color=brightgreen&style=flat-square)
+![Coverage](https://img.shields.io/static/v1?label=coverage&message=91%25&color=brightgreen&style=flat-square)
 ![current Version: v0.3.4](https://img.shields.io/static/v1?label=version&message=0.3.4&color=red&style=flat-square)
 ![License](https://img.shields.io/static/v1?label=license&message=MPL-2&color=blue&style=flat-square)
 [![godocs.io](https://img.shields.io/badge/godoc-reference-blue?style=flat-square)](https://godocs.io/git.sr.ht/~poldi1405/glog)
