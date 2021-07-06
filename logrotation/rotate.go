@@ -22,7 +22,7 @@ func (r *Rotor) Rotate() (err error) {
 // mutex between last write and rotation.
 func (r *Rotor) rotateInsecure() (err error) {
 	if !fileExists(r.filepath) {
-		fh, err := os.OpenFile(r.filepath, os.O_SYNC|os.O_APPEND|os.O_CREATE|os.O_WRONLY, r.Permissions)
+		fh, err := os.OpenFile(r.filepath, r.fileFlags, r.Permissions)
 		if err != nil {
 			return fmt.Errorf("cannot create new logfile: %w", err)
 		}
