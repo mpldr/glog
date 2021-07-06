@@ -20,7 +20,7 @@ type Rotor struct {
 	Permissions os.FileMode
 	// fileFlags contains fileFlags that are applied to logfiles on opening
 	fileFlags int
-	// MaxFileSize is after what time the file is truncated. Default: 32 MiB
+	// MaxFileSize is after what time the file is truncated. Default: 4 MiB
 	MaxFileSize uint64
 	// Retention is how many "old" logs are kept. Default: 2. This means you
 	// have 3 files in total: file.log, file.log.1.gz, file.log.2.gz
@@ -57,7 +57,7 @@ type Rotor struct {
 // NewRotor generates a new Rotor with the given options overwriting the
 // defaults. The defaults are:
 // Permissions: 600,
-// MaxFileSize: 32 MiB,
+// MaxFileSize: 4 MiB,
 // Retention:   2,
 // KeptPercent: 5,
 // Compression: gzip (Default Compression)
@@ -65,7 +65,7 @@ func NewRotor(path string, opts ...uint8) *Rotor {
 	r := &Rotor{
 		filepath:         path,
 		Permissions:      0o600,
-		MaxFileSize:      32 * 1024 * 1024,
+		MaxFileSize:      4 * 1024 * 1024,
 		Retention:        2,
 		KeptPercent:      5,
 		compressExt:      ".gz",

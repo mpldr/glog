@@ -75,8 +75,6 @@ DASH)  over a normal [U+002D](https://codepoints.net/U+002D)
   expensive
 	- using StdOut/StdErr for logging decreases this time because
 	  it does not need to write to disk
-- The default of 32 MiB should hold about 400.000 Log Lines and
-  compress them to about 3 MiB once rotated
 
 ## Learn more
 

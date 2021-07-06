@@ -13,7 +13,7 @@ import (
 var indata []byte
 
 func init() {
-	for i := 0; i < 32*1024*1024; i++ {
+	for i := 0; i < 4*1024*1024; i++ {
 		indata = append(indata, byte(rand.Intn(255)))
 	}
 }
