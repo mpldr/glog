@@ -193,7 +193,7 @@ func writeToOutput(lvl Level, message string) {
 	if len(errs) != 0 {
 		// just try to get word about the current error out
 		for _, err := range errs {
-			for _, out := range outputs[lvl] {
+			for _, out := range outputs[ERROR] {
 				wg.Add(1)
 				go func(out io.Writer) {
 					if isTerminal(out) {
