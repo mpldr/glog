@@ -7,7 +7,8 @@ the world needed: another logging library.
 ![current Version: v1.0.0](https://img.shields.io/static/v1?label=version&message=1.0.0&color=green&style=flat-square)
 ![License](https://img.shields.io/static/v1?label=license&message=MPL-2&color=blue&style=flat-square)
 [![godocs.io](https://img.shields.io/badge/godoc-reference-blue?style=flat-square)](https://godocs.io/git.sr.ht/~poldi1405/glog)
-![no non-stdlib deps that must be credited](https://img.shields.io/badge/external_dependencies-0-green?style=flat-square)\*
+![no non-stdlib deps that must be credited](https://img.shields.io/badge/external_dependencies-0-green?style=flat-square)[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmpldr%2Fglog.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmpldr%2Fglog?ref=badge_shield)
+\*
 
 ## Features
 
@@ -115,3 +116,6 @@ To learn more you may:
   [FAQs](https://www.mozilla.org/en-US/MPL/2.0/FAQ/)
 - take a look at a summary at
   [TLDRLegal](https://www.tldrlegal.com/l/mpl-2.0)
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmpldr%2Fglog.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmpldr%2Fglog?ref=badge_large)
