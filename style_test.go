@@ -6,7 +6,7 @@ import (
 	"time"
 	"unsafe"
 
-	"git.sr.ht/~poldi1405/go-ansi"
+	"mpldr.codes/ansi"
 )
 
 func TestDefaultLogFormat(t *testing.T) {

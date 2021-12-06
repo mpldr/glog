@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"git.sr.ht/~poldi1405/go-ansi"
+	"mpldr.codes/ansi"
 )
 
 var (

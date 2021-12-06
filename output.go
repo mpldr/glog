@@ -6,7 +6,7 @@ import (
 	"os"
 	"sync"
 
-	"git.sr.ht/~poldi1405/go-ansi"
+	"mpldr.codes/ansi"
 )
 
 // set default outputs per loglevel

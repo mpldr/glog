@@ -5,7 +5,7 @@ import (
 	"sync"
 	"time"
 
-	"git.sr.ht/~poldi1405/go-ansi"
+	"mpldr.codes/ansi"
 )
 
 // StyleFunction is a kind of function that is used for styling. I know, who

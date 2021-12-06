@@ -3,7 +3,7 @@ package glog
 import (
 	"os"
 
-	"git.sr.ht/~poldi1405/go-ansi"
+	"mpldr.codes/ansi"
 )
 
 // init attempts to automatically enable ANSI-Escape-Sequences on Windows
